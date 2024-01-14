@@ -1,6 +1,7 @@
 #clues-container{
     width:100vw;
     max-width:950px;
+    padding-bottom:100px;
 }
 
 .clue-container{
@@ -60,7 +61,7 @@
     margin:15px 0;
 }
 
-#game-container{
+#play-container{
     position:fixed;
     bottom:30px;
     width:100vw;
@@ -95,5 +96,11 @@
     flex:0 0 150px;
     font-weight:900;
     font-size:1.5em;
+    background:#c0c0c0;
     border-radius:10px;
+    cursor:pointer;
+}
+
+#skip-button:active{
+    background:#aaa;
 }

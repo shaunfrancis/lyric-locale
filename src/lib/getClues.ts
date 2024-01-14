@@ -8,14 +8,10 @@ export default async function getClues() : Promise<RowDataPacket[]>{
         database: process.env.DB_NAME
     });
 
-    try {
+    try{
         const [results] = await connection.query<RowDataPacket[]>( 'SELECT * FROM unnamed_song_game_clues' );
-        console.log(results); // results contains rows returned by server
-
         return results;
 
-    } catch (err) {
-        console.log(err);
-        throw new Error();
     }
+    catch(err){ throw new Error() }
 }
