@@ -1,6 +1,7 @@
-import mysql, { RowDataPacket } from 'mysql2/promise';
+import mysql from 'mysql2/promise';
+import Clue from '../types/Clue';
 
-export default async function getClues() : Promise<RowDataPacket[]>{
+export default async function getClues() : Promise<Clue[]>{
     const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
@@ -9,7 +10,7 @@ export default async function getClues() : Promise<RowDataPacket[]>{
     });
 
     try{
-        const [results] = await connection.query<RowDataPacket[]>( 'SELECT * FROM unnamed_song_game_clues' );
+        const [results] = await connection.query<Clue[]>( 'SELECT * FROM unnamed_song_game_clues' );
         return results;
 
     }

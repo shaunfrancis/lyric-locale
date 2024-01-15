@@ -6,7 +6,7 @@
 
 .clue-container{
     display:flex;
-    align-items:end;
+    align-items:flex-end;
     margin:150px 25px;
 }
 
@@ -68,27 +68,51 @@
     max-width:950px;
     display:flex;
     padding:20px;
-    background:#000;
-    border-radius:10px;
     gap:20px;
+}
+
+#play-gradient{
+    position:absolute;
+    z-index:-1;
+    pointer-events:none;
+    width:100vw;
+    height:calc(100% + 150px + 30px);
+    top:-150px;
+    left:calc(50% - 50vw);
+    background:linear-gradient(rgba(40, 40, 40, 0) 0%, rgba(40, 40, 40, 1) 80%);
 }
 
 #guess-container{
     flex:1 0;
+    position:relative;
+}
+
+#guess-input-container{
+    display:relative;
 }
 
 #guess-input{
     font-weight:900;
     font-size:2em;
-    padding:10px 20px;
+    padding:10px 70px 10px 20px;
     width:100%;
-    background:#1d1d1d;
+    background:rgb(21, 21, 21);
     color:#fff;
     border-radius:10px;
     border:none;
 }
 
-#skip-button{
+#guess-input-action{
+    position:absolute;
+    right:20px;
+    top:calc(50% - 15px);
+    width:30px;
+    height:30px;
+    background:orange;
+    cursor:pointer;
+}
+
+.play-button{
     -webkit-appearance:none;
     appearance:none;
     outline:none;
@@ -96,11 +120,52 @@
     flex:0 0 150px;
     font-weight:900;
     font-size:1.5em;
-    background:#c0c0c0;
     border-radius:10px;
     cursor:pointer;
 }
 
+#skip-button{
+    background:#c0c0c0;
+}
+
 #skip-button:active{
     background:#aaa;
+}
+
+#guess-button{
+    background:rgb(57, 57, 210);
+    color:#fff;
+}
+
+#query-results{
+    position:absolute;
+    bottom:100%;
+    opacity:0;
+    pointer-events:none;
+    transform:scale(1,0.9);
+    transform-origin:bottom;
+    transition:opacity 100ms, transform 100ms;
+}
+
+#query-results.visible{
+    opacity:1;
+    pointer-events:default;
+    transform:scale(1,1);
+}
+
+.query-result{
+    padding:10px 20px;
+    width:100%;
+    background:rgb(21, 21, 21);
+    color:#fff;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+}
+
+.query-result img{
+    object-fit:cover;
+    width:50px;
+    height:50px;
+    margin-right:20px;
 }

@@ -1,11 +1,11 @@
 "use client";
 import Image from 'next/image';
-import { useState } from 'react';
-import { Languages } from '../constants/languages';
+import Clue from '../types/Clue';
+import { Languages } from '../constants/Languages';
 import styles from '../app/page.module.css';
 
-export default function Clue(clue){
-    const lang = clue.language in Languages ? Languages[clue.language] : Languages.missing;
+export default function ClueContainer( { clue } : { clue : Clue } ){
+    const lang = clue.language in Languages ? Languages[clue.language as keyof typeof Languages] : Languages.missing;
 
     return (
         <div className={styles["clue-container"]}>

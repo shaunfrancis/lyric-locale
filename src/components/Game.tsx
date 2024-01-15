@@ -3,15 +3,15 @@
 import styles from '../app/page.module.css';
 
 import { useState } from 'react';
+import Clue from '../types/Clue';
 
-import Clue from './Clue';
+import ClueContainer from './ClueContainer';
 import Play from './Play';
 
-export default function Game(props){
-    const clues = props.clues;
+export default function Game( {clues} : {clues : Clue[]} ){
     const [ count, setCount ] = useState<number>(0);
 
-    function nextClue(){
+    function nextClue() : void {
         setCount(count + 1);
         window.scrollTo({
             top: document.body.scrollHeight,
@@ -24,12 +24,12 @@ export default function Game(props){
         <>
             <div id={styles["clues-container"]}>
             {   
-                clues.map( (clue, index) => {
-                    return (index <= count) && ( <Clue key={index} {...clue} /> )
+                clues.map( (clue : Clue, index : number) => {
+                    return (index <= count) && ( <ClueContainer key={index} clue={clue} /> )
                 })
             }
             </div>
-            <Play nextClue={nextClue} />
+            <Play nextClue={nextClue} count={count} max={clues.length - 2} />
         </>
     )
 }
