@@ -1,20 +1,33 @@
 import styles from '../app/page.module.css';
-import { Dispatch, SetStateAction } from 'react';
+import { useRef, Dispatch, SetStateAction, MutableRefObject } from 'react';
 
 export default function QueryInput( 
     {setResults, setInputIsFocused} : {setResults : Dispatch<SetStateAction<any>>, setInputIsFocused : Dispatch<SetStateAction<boolean>>} 
 ){
 
-    console.log(process.env);
+    let awaitingSearchTimeout : MutableRefObject<NodeJS.Timeout | undefined> = useRef();
+    let awaitingQuery : MutableRefObject<string> = useRef("");
     const search = async (query : string) => {
+        query = query.trim().toLowerCase();
+        
+        if(query == awaitingQuery.current) return;
+
         if(query == ""){
+            clearTimeout(awaitingSearchTimeout.current);
             setResults([]);
             return;
         }
-        const goFetch = await fetch(process.env.TRACK_SEARCH_URL + "&type=master&format=single&q=" + query);
-        const json = await goFetch.json();
 
-        setResults(json.results);
+        awaitingQuery.current = query;
+
+        awaitingSearchTimeout.current = setTimeout( async () => {
+            if(query != awaitingQuery.current) return;
+
+            const res = await fetch("http://localhost:3000/api/tracks?query=" + query);
+            const json = await res.json();
+            setResults(json);
+
+        }, 1000);
     }
 
     return (

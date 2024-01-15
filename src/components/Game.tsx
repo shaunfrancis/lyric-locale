@@ -13,11 +13,13 @@ export default function Game( {clues} : {clues : Clue[]} ){
 
     function nextClue() : void {
         setCount(count + 1);
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            left: 0,
-            behavior: "smooth",
-        });
+        setTimeout( () => { //await render
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                left: 0,
+                behavior: "smooth",
+            });
+        }, 1);
     }
 
     return(
