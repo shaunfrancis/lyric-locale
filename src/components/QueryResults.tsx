@@ -1,8 +1,9 @@
+import { GuessInputIndicatorClass } from '@/constants/GuessInputIndicatorClass';
 import styles from '../app/page.module.css';
 import { Dispatch, SetStateAction } from 'react';
 
 export default function QueryResults( 
-    { results, inputIsFocused } : { results : any, inputIsFocused : boolean } 
+    { results, inputIsFocused, setInputIndicator } : { results : any, inputIsFocused : boolean } 
 ){
     return (
         <div id={styles["query-results"]} className={inputIsFocused ? styles["visible"] : ""}>

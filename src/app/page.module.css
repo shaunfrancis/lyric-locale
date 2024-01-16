@@ -37,7 +37,7 @@
     
     display:inline-block;
 
-    background:#282828;
+    background:rgb(40, 40, 40);
     border-radius:30px;
     box-shadow: inset 0 0 20px #cdbfbf, inset 10px 0 40px #b5bec4,
         inset 0 50px 140px #b89a9b;
@@ -88,7 +88,8 @@
 }
 
 #guess-input-container{
-    display:relative;
+    position:relative;
+    z-index:1;
 }
 
 #guess-input{
@@ -102,15 +103,24 @@
     border:none;
 }
 
-#guess-input-action{
+#guess-input-indicator{
     position:absolute;
     right:20px;
     top:calc(50% - 15px);
     width:30px;
     height:30px;
-    /background:orange;
-    cursor:pointer;
 }
+    .static-indicator{
+        pointer-events:none;
+    }
+
+    .searching-indicator{
+        background-image:url(/waveform.svg);
+        background-position:center;
+        background-size:contain;
+        background-repeat:no-repeat;
+        pointer-events:none;
+    }
 
 .play-button{
     -webkit-appearance:none;
@@ -139,28 +149,36 @@
 
 #query-results{
     position:absolute;
+    width: 100%;
+    min-width: min(500px, calc(100vw - 40px));
+    margin:10px 0;
     bottom:100%;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
     opacity:0;
     pointer-events:none;
     transform:scale(1,0.9);
     transform-origin:bottom;
     transition:opacity 100ms, transform 100ms;
+    background:linear-gradient(90deg, rgba(40, 40, 40, 0) 0%, rgba(40, 40, 40, 0.95) 20%, rgba(40, 40, 40, 0.95) 80%, rgba(40, 40, 40, 0) 100%);
 }
 
 #query-results.visible{
     opacity:1;
-    pointer-events:default;
+    pointer-events:auto;
     transform:scale(1,1);
 }
 
 .query-result{
-    padding:10px 20px;
+    padding:10px 40px 10px 20px;
     width:100%;
     background:rgb(21, 21, 21);
     color:#fff;
     border-radius:10px;
     display:flex;
     align-items:center;
+    cursor:pointer;
 }
 
 .query-result img{

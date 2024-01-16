@@ -1,0 +1,42 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 -10l0 120" />
+    <path d="M20 -10l0 120" />
+    <path d="M35 -10l0 120" />
+    <path d="M50 -10l0 120" />
+    <path d="M65 -10l0 120" />
+    <path d="M80 -10l0 120" />
+    <path d="M95 -10l0 120" />
+    <defs>
+        <style>
+            :root{ 
+                --duration: 1500ms;
+                --delay-fraction: calc( -1 * var(--duration) / 7 );
+            }
+            @keyframes pulse{
+                0% { stroke-dasharray: 0 50 20 50 }
+                20% { stroke-dasharray: 0 20 80 20 }
+                40% { stroke-dasharray: 0 40 40 40 }
+                60% { stroke-dasharray: 0 30 60 30 }
+                80% { stroke-dasharray: 0 55 10 55 }
+                100% { stroke-dasharray: 0 50 20 50 }
+            }
+
+            path{
+                stroke: #fff;
+                stroke-width: 10;
+                stroke-linecap: round;
+                animation: pulse var(--duration);
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+
+            path:nth-child(1){ animation-delay: calc( var(--delay-fraction) * 1 ) }
+            path:nth-child(2){ animation-delay: calc( var(--delay-fraction) * 4 ) }
+            path:nth-child(3){ animation-delay: calc( var(--delay-fraction) * 6 ) }
+            path:nth-child(4){ animation-delay: calc( var(--delay-fraction) * 3 ) }
+            path:nth-child(5){ animation-delay: calc( var(--delay-fraction) * 2 ) }
+            path:nth-child(6){ animation-delay: calc( var(--delay-fraction) * 7 ) }
+            path:nth-child(7){ animation-delay: calc( var(--delay-fraction) * 5 ) }
+        </style>
+    </defs>
+</svg>

@@ -10,7 +10,7 @@ export default function ClueContainer( { clue } : { clue : Clue } ){
     return (
         <div className={styles["clue-container"]}>
             <div className={styles["language-container"]}>
-                <div className={styles["language-english-name"] + " " + styles["language-name"]}>{lang.enName}</div>
+                <div className={styles["language-name"]}>{lang.enName}</div>
                 <div className={styles["language-local-name"] + " " + styles["language-name"]}>{lang.localName}</div>
                 <Image src={"/" + clue.language + ".png"} alt={lang.enName} width={70 / lang.ratio} height={70} />
             </div>
