@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
-import Clue from '../types/Clue';
+import Clue, { ClueWithoutLanguage } from '../types/Clue';
+import { Languages } from '@/constants/Languages';
 
 export default async function getClues() : Promise<Clue[]>{
     const connection = await mysql.createConnection({
@@ -10,8 +11,14 @@ export default async function getClues() : Promise<Clue[]>{
     });
 
     try{
-        const [results] = await connection.query<Clue[]>( 'SELECT * FROM unnamed_song_game_clues' );
-        return results;
+        const [results] = await connection.query<ClueWithoutLanguage[]>( 'SELECT * FROM unnamed_song_game_clues' );
+
+        results.forEach( clue => {
+            const language = Languages.find( c => c.code == clue.language ) || Languages.find( c => c.code == "missing" );
+            clue.language = language;
+        });
+
+        return results as Clue[];
 
     }
     catch(err){ throw new Error() }

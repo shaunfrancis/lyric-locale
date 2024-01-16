@@ -1,44 +1,53 @@
-const Languages = {
-    de: {
+const Languages = [
+    {
+        code: "de",
         enName: "German",
         localName: "Deutsch",
         ratio: 3 / 5
     },
-    en: {
+    {
+        code: "en",
         enName: "English",
         localName: "English",
         ratio: 1 / 2
     },
-    fr: {
+    {
+        code: "fr",
         enName: "French",
         localName: "Français",
         ratio: 2 / 3
     },
-    hu: {
+    {
+        code: "hu",
         enName: "Hungarian",
         localName: "Magyar",
         ratio: 1 / 2
     },
-    it: {
+    {
+        code: "it",
         enName: "Italian",
         localName: "Italiano",
         ratio: 2 / 3
     },
-    no: {
+    {
+        code: "no",
         enName: "Norwegian",
         localName: "Norsk",
-        ratio: 8 / 11
+        ratio: 8 / 11,
+        squareSrc: "no-sq"
     },
-    pl: {
+    {
+        code: "pl",
         enName: "Polish",
         localName: "Polski",
         ratio: 5 / 8
     },
-    missing: {
-        enName: "Error",
-        localName: "Error",
+    {
+        code: "missing",
+        enName: "Missing Data",
+        localName: "Missing Data",
         ratio: 1
     }
-};
+];
 
 export { Languages };

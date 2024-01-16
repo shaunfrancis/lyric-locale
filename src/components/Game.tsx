@@ -29,7 +29,10 @@ export default function Game( {clues} : {clues : Clue[]} ){
                     clues.map( (clue : Clue, index : number) => {
                         if(index == 6) return;
 
-                        if(index <= count) return ( <div className={styles["progress-square"]} style={{backgroundImage: "url(/" + clue.language + ".png)"}}></div> )
+                        if(index <= count){
+                            const bgSrc = "url(/" + ("squareSrc" in clue.language ? clue.language.squareSrc : clue.language.code) + ".png";
+                            return ( <div className={styles["progress-square"]} style={{backgroundImage: bgSrc}}></div> )
+                        }
                         else  return ( <div className={styles["progress-square"]}></div> )
                     })
                 }
