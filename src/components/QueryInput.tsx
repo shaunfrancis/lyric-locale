@@ -4,14 +4,14 @@ import { useRef, Dispatch, SetStateAction, MutableRefObject } from 'react';
 import SongResult from '@/types/SongResult';
 
 export default function QueryInput( 
-    {guessInputRef, setResults, setInputIsFocused, inputIndicator, setInputIndicator, selectedSong} : 
+    {guessInputRef, setResults, setInputIsFocused, inputIndicator, setInputIndicator, selectSong} : 
     {
         guessInputRef :  MutableRefObject<HTMLInputElement | null>,
         setResults : Dispatch<SetStateAction<Array<SongResult> | null>>, 
         setInputIsFocused : Dispatch<SetStateAction<boolean>>, 
         inputIndicator : GuessInputIndicatorClass, 
         setInputIndicator : Dispatch<SetStateAction<GuessInputIndicatorClass>>,
-        selectedSong : SongResult | null
+        selectSong : (song: SongResult | null) => void
     } 
 ){
 
@@ -29,7 +29,8 @@ export default function QueryInput(
             setInputIndicator(GuessInputIndicatorClass.Static);
             return;
         }
-
+        
+        selectSong(null);
         setInputIndicator(GuessInputIndicatorClass.Searching);
         setResults(null);
 

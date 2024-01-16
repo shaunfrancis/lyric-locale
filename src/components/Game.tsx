@@ -24,6 +24,16 @@ export default function Game( {clues} : {clues : Clue[]} ){
 
     return(
         <>
+            <div id={styles["progress-container"]}>
+                {
+                    clues.map( (clue : Clue, index : number) => {
+                        if(index == 6) return;
+
+                        if(index <= count) return ( <div className={styles["progress-square"]} style={{backgroundImage: "url(/" + clue.language + ".png)"}}></div> )
+                        else  return ( <div className={styles["progress-square"]}></div> )
+                    })
+                }
+            </div>
             <div id={styles["clues-container"]}>
             {   
                 clues.map( (clue : Clue, index : number) => {
@@ -31,7 +41,7 @@ export default function Game( {clues} : {clues : Clue[]} ){
                 })
             }
             </div>
-            <Play nextClue={nextClue} count={count} max={clues.length - 2} />
+            <Play nextClue={nextClue} count={count} />
         </>
     )
 }

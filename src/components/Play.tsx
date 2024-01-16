@@ -6,7 +6,7 @@ import QueryResults from './QueryResults';
 import { GuessInputIndicatorClass } from '@/types/GuessInputIndicatorClass';
 import SongResult from '@/types/SongResult';
 
-export default function Play( {nextClue, count, max} : {nextClue : () => void, count : number, max : number} ){
+export default function Play( {nextClue, count} : {nextClue : () => void, count : number} ){
 
     const [queryResults, setQueryResults] = useState<Array<SongResult> | null>(null);
     const [inputIsFocused, setInputIsFocused] = useState<boolean>(false);
@@ -25,17 +25,11 @@ export default function Play( {nextClue, count, max} : {nextClue : () => void, c
             }
             setInputIndicator(GuessInputIndicatorClass.Selected);
         }
-        else{
-            setInputIndicator(GuessInputIndicatorClass.Static);
-            if(guessInputRef.current){
-                guessInputRef.current.value = "";
-                guessInputRef.current.focus();
-            }
-        }
+        else setInputIndicator(GuessInputIndicatorClass.Static);
     }
 
     let playButton;
-    const skipText = (count == max) ? "Give Up" : "Skip";
+    const skipText = (count == 5) ? "Give Up" : "Skip";
     if(!selectedSong){
         playButton = <button id={styles["skip-button"]} className={styles["play-button"]} onClick={nextClue}>{skipText}</button>;
     }
@@ -47,7 +41,7 @@ export default function Play( {nextClue, count, max} : {nextClue : () => void, c
         <div id={styles["play-container"]}>
             <div id={styles["play-gradient"]}></div>
             <div id={styles["guess-container"]}>
-                <QueryInput guessInputRef={guessInputRef} setResults={setQueryResults} setInputIsFocused={setInputIsFocused} inputIndicator={inputIndicator} setInputIndicator={setInputIndicator} selectedSong={selectedSong} />
+                <QueryInput guessInputRef={guessInputRef} setResults={setQueryResults} setInputIsFocused={setInputIsFocused} inputIndicator={inputIndicator} setInputIndicator={setInputIndicator} selectSong={selectSong}  />
                 <QueryResults results={queryResults} inputIsFocused={inputIsFocused} selectSong={selectSong} />
             </div>
             {playButton}
