@@ -1,14 +1,18 @@
-import { GuessInputIndicatorClass } from '@/constants/GuessInputIndicatorClass';
+import { GuessInputIndicatorClass } from '@/types/GuessInputIndicatorClass';
 import styles from '../app/page.module.css';
 import { useRef, Dispatch, SetStateAction, MutableRefObject } from 'react';
+import SongResult from '@/types/SongResult';
 
 export default function QueryInput( 
-    {setResults, setInputIsFocused, inputIndicator, setInputIndicator} : 
+    {guessInputRef, setResults, setInputIsFocused, inputIndicator, setInputIndicator, selectedSong} : 
     {
-        setResults : Dispatch<SetStateAction<Array<any> | null>>, 
+        guessInputRef :  MutableRefObject<HTMLInputElement | null>,
+        setResults : Dispatch<SetStateAction<Array<SongResult> | null>>, 
         setInputIsFocused : Dispatch<SetStateAction<boolean>>, 
         inputIndicator : GuessInputIndicatorClass, 
-        setInputIndicator : Dispatch<SetStateAction<GuessInputIndicatorClass>>} 
+        setInputIndicator : Dispatch<SetStateAction<GuessInputIndicatorClass>>,
+        selectedSong : SongResult | null
+    } 
 ){
 
     let awaitingSearchTimeout : MutableRefObject<NodeJS.Timeout | undefined> = useRef();
@@ -44,7 +48,7 @@ export default function QueryInput(
 
     return (
         <div id={styles["guess-input-container"]}>
-            <input type="text" id={styles["guess-input"]} placeholder="Guess a song..." onChange={e => search(e.target.value)} onFocus={() => { setInputIsFocused(true) }} onBlur={() => { setInputIsFocused(false) }} autoComplete="false" spellCheck="false"  />
+            <input ref={guessInputRef} type="text" id={styles["guess-input"]} placeholder="Guess a song..." onChange={e => search(e.target.value)} onFocus={() => { setInputIsFocused(true) }} onBlur={() => { setInputIsFocused(false) }} autoComplete="false" spellCheck="false"  />
             <div className={styles[inputIndicator]} id={styles["guess-input-indicator"]}></div>
         </div>
     )

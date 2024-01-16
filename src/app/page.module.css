@@ -109,17 +109,18 @@
     top:calc(50% - 15px);
     width:30px;
     height:30px;
+    background-position:center;
+    background-size:contain;
+    background-repeat:no-repeat;
+    pointer-events:none;
 }
-    .static-indicator{
-        pointer-events:none;
-    }
 
     .searching-indicator{
         background-image:url(/waveform.svg);
-        background-position:center;
-        background-size:contain;
-        background-repeat:no-repeat;
-        pointer-events:none;
+    }
+
+    .selected-indicator{
+        background-image:url(/music-note.svg);
     }
 
 .play-button{
