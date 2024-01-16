@@ -3,7 +3,12 @@ import styles from '../app/page.module.css';
 import { useRef, Dispatch, SetStateAction, MutableRefObject } from 'react';
 
 export default function QueryInput( 
-    {setResults, setInputIsFocused, inputIndicator, setInputIndicator} : {setResults : Dispatch<SetStateAction<any>>, setInputIsFocused : Dispatch<SetStateAction<boolean>>, inputIndicator : GuessInputIndicatorClass, setInputIndicator : Dispatch<SetStateAction<GuessInputIndicatorClass>>} 
+    {setResults, setInputIsFocused, inputIndicator, setInputIndicator} : 
+    {
+        setResults : Dispatch<SetStateAction<Array<any> | null>>, 
+        setInputIsFocused : Dispatch<SetStateAction<boolean>>, 
+        inputIndicator : GuessInputIndicatorClass, 
+        setInputIndicator : Dispatch<SetStateAction<GuessInputIndicatorClass>>} 
 ){
 
     let awaitingSearchTimeout : MutableRefObject<NodeJS.Timeout | undefined> = useRef();
@@ -15,14 +20,14 @@ export default function QueryInput(
 
         if(query == "" || query.length <= 3){
             clearTimeout(awaitingSearchTimeout.current);
-            setResults([]);
+            setResults(null);
             awaitingQuery.current = query;
             setInputIndicator(GuessInputIndicatorClass.Static);
             return;
         }
 
         setInputIndicator(GuessInputIndicatorClass.Searching);
-        setResults([]);
+        setResults(null);
 
         awaitingQuery.current = query;
 

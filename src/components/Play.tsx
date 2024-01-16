@@ -17,7 +17,7 @@ export default function Play( {nextClue, count, max} : {nextClue : () => void, c
         playButton = <button id={styles["guess-button"]} className={styles["play-button"]} onClick={nextClue}>Guess</button>;
     }
 
-    const [queryResults, setQueryResults] = useState<Array<any>>([]);
+    const [queryResults, setQueryResults] = useState<Array<any> | null>(null);
     const [inputIsFocused, setInputIsFocused] = useState<boolean>(false);
     const [inputIndicator, setInputIndicator] = useState<GuessInputIndicatorClass>(GuessInputIndicatorClass.Static);
 
