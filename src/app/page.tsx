@@ -1,16 +1,18 @@
 import Image from 'next/image';
 import styles from './page.module.css';
 
+import getGame from '../lib/getGame';
 import getClues from '../lib/getClues';
 
-import Game from '../components/Game';
+import GameContainer from '../components/GameContainer';
 
 export default async function Home() {
-    const clues = await getClues();
+    const game = await getGame();
+    const clues = await getClues(game.id);
 
     return (
     <main>
-        <Game clues={clues} />
+        <GameContainer game={game} clues={clues} />
     </main>
     )
 }

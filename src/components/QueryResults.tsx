@@ -5,7 +5,7 @@ import SongResult from '@/types/SongResult';
 
 export default function QueryResults( 
     { results, inputIsFocused, selectSong } : 
-    { results : Array<SongResult> | null, inputIsFocused : boolean, selectSong : (song : SongResult | null) => void } 
+    { results : SongResult[] | null, inputIsFocused : boolean, selectSong : (song : SongResult | null) => void } 
 ){
 
     if(Array.isArray(results)){

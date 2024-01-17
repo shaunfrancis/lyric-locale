@@ -17,6 +17,7 @@ export default function QueryInput(
 
     let awaitingSearchTimeout : MutableRefObject<NodeJS.Timeout | undefined> = useRef();
     let awaitingQuery : MutableRefObject<string> = useRef("");
+    
     const search = async (query : string) => {
         query = query.trim().toLowerCase();
         
@@ -29,7 +30,7 @@ export default function QueryInput(
             setInputIndicator(GuessInputIndicatorClass.Static);
             return;
         }
-        
+
         selectSong(null);
         setInputIndicator(GuessInputIndicatorClass.Searching);
         setResults(null);

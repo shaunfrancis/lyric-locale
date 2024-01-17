@@ -43,6 +43,13 @@ const Languages = [
         ratio: 5 / 8
     },
     {
+        code: "pt",
+        enName: "Portuguese",
+        localName: "Português",
+        ratio: 2 / 3,
+        squareSrc: "pt-sq"
+    },
+    {
         code: "missing",
         enName: "Missing Data",
         localName: "Missing Data",
