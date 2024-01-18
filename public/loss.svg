@@ -1,0 +1,13 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 20l60 60" />
+    <path d="M80 20l-60 60" />
+    <defs>
+        <style>
+            path{
+                stroke: #fff;
+                stroke-width: 20;
+                stroke-linecap: round;
+            }
+        </style>
+    </defs>
+</svg>

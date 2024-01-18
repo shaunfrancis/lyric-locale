@@ -10,7 +10,7 @@ export default async function getGame() : Promise<Game>{
     });
 
     try{
-        const [results] = await connection.query<Game[]>( 'SELECT id, solution_id, lyrics FROM unnamed_song_game_games ORDER BY id DESC LIMIT 1' );
+        const [results] = await connection.query<Game[]>( 'SELECT id, solution_id, title, lyrics, thumb FROM unnamed_song_game_games ORDER BY id DESC LIMIT 1' );
         return results[0] as Game;
 
     }

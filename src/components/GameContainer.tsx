@@ -22,7 +22,9 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
     const [queryResults, setQueryResults] = useState<Song[] | null>(null);
     const [inputIsFocused, setInputIsFocused] = useState<boolean>(false);
     const [gameOver, setGameOver] = useState<boolean>(false);
+    const [didWin, setDidWin] = useState<boolean>(false);
     const guessInputRef = useRef(null) as MutableRefObject<HTMLInputElement | null>;
+    const currentClue = useRef(null) as MutableRefObject<HTMLDivElement | null>;
     const firstGuess = useRef(true);
 
     const solutionClue : Clue = {
@@ -33,8 +35,8 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
 
     const solutionSong : Song = {
         id: game.solution_id,
-        title: "Adele - Set Fire To The Rain",
-        thumb: "https://i.discogs.com/aw4hy9OduJjkWwHmlG0Jp4c9LlTdiRRV3yX8e1C3f5E/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5ODkx/MzAtMTY0OTIxMDc4/OC00MDA2LnBuZw.jpeg"
+        title: game.title,
+        thumb: game.thumb
     }
 
     const selectSong = (song : Song | null) => {
@@ -59,11 +61,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
         else setCount(count + 1);
         
         setTimeout( () => { //await render
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                left: 0,
-                behavior: "smooth",
-            });
+            if(currentClue.current) currentClue.current.scrollIntoView({ behavior: "smooth" });
         }, 1);
     }
 
@@ -81,15 +79,12 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             nextClue();
         }
         else{
+            setDidWin(true);
             setGameOver(true);
             setCount(6);
             if(guessInputRef.current) guessInputRef.current.blur();
             setTimeout( () => { //await render
-                window.scrollTo({
-                    top: document.body.scrollHeight,
-                    left: 0,
-                    behavior: "smooth",
-                });
+                if(currentClue.current) currentClue.current.scrollIntoView({ behavior: "smooth" });
             }, 1);
         }
     }
@@ -108,16 +103,19 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
 
     return(
         <>
-            <ProgressContainer clues={clues} count={count} gameOver={gameOver} />
+            <ProgressContainer clues={clues} count={count} gameOver={gameOver} didWin={didWin} />
             <div id={styles["clues-container"]} style={{paddingBottom: gameOver ? "0px" : "100px"}}>
             {   
                 clues.map( (clue : Clue, index : number) => {
-                    return (index <= count) && ( <ClueContainer key={index} clue={clue} /> )
+                    let currentClueProp;
+                    if(!gameOver && index == count) currentClueProp = currentClue;
+
+                    return (index <= count) && ( <ClueContainer key={index} clue={clue} currentClue={currentClueProp} /> )
                 })
             }
             {
                 gameOver && ( 
-                    <ClueContainer clue={solutionClue} solution={solutionSong} /> 
+                    <ClueContainer clue={solutionClue} solution={solutionSong} currentClue={currentClue} /> 
                 )
             }
             </div>

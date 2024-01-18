@@ -12,14 +12,30 @@
     align-items:center;
     justify-content:center;
     gap:20px;
+    transition:width 200ms;
 }
+    #progress-container.game-over{ width:400px }
 
-.progress-square{
-    width:30px;
+.progress-square, #progress-result{
+    flex:0 0 30px;
     height:30px;
     background-color:rgb(40,40,40);
     background-size:100% 100%;
+    overflow:hidden;
 }
+
+    #progress-result{ 
+        animation: grow 200ms forwards;
+        background-color: unset;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    @keyframes grow{ from{ flex-basis: 0 } to{ flex-basis: 30px } }
+
+    #progress-result.win{ background-image: url(/win.svg) }
+    #progress-result.loss{ background-image: url(/loss.svg) }
+
 
 #clues-container{
     width:100vw;
@@ -30,6 +46,7 @@
     display:flex;
     align-items:flex-end;
     margin:150px 25px;
+    scroll-margin-top: 130px;
 }
     .clue-container:first-child{ margin-top: 120px }
 
@@ -68,6 +85,8 @@
 
     font-weight:900;
     font-size:1.8em;
+
+    flex-grow:1;
 }
 
 .lyric-flag-blur{
@@ -80,7 +99,6 @@
     z-index:-1;
     -webkit-filter:blur(50px);
     filter:blur(50px);
-    transform:translate3d(0);
 }
 
 .lyric-line{

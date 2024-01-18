@@ -3,5 +3,7 @@ import { RowDataPacket } from 'mysql2'
 export interface Game extends RowDataPacket{
     id: number,
     solution_id: number,
-    lyrics: string
+    title: string,
+    lyrics: string,
+    thumb: string
 }
