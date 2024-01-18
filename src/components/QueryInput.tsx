@@ -1,23 +1,23 @@
 import { GuessInputIndicatorClass } from '@/types/GuessInputIndicatorClass';
 import styles from '../app/page.module.css';
 import { useRef, Dispatch, SetStateAction, MutableRefObject } from 'react';
-import SongResult from '@/types/SongResult';
+import Song from '@/types/Song';
 
 export default function QueryInput( 
     {guessInputRef, setResults, setInputIsFocused, inputIndicator, setInputIndicator, selectSong} : 
     {
         guessInputRef :  MutableRefObject<HTMLInputElement | null>,
-        setResults : Dispatch<SetStateAction<Array<SongResult> | null>>, 
+        setResults : Dispatch<SetStateAction<Array<Song> | null>>, 
         setInputIsFocused : Dispatch<SetStateAction<boolean>>, 
         inputIndicator : GuessInputIndicatorClass, 
         setInputIndicator : Dispatch<SetStateAction<GuessInputIndicatorClass>>,
-        selectSong : (song: SongResult | null) => void
+        selectSong : (song: Song | null) => void
     } 
 ){
 
     let awaitingSearchTimeout : MutableRefObject<NodeJS.Timeout | undefined> = useRef();
     let awaitingQuery : MutableRefObject<string> = useRef("");
-    
+
     const search = async (query : string) => {
         query = query.trim().toLowerCase();
         

@@ -1,4 +1,4 @@
-import SongResult from '@/types/SongResult';
+import SongResult from '@/types/Song';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) : Promise<Response> {

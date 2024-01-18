@@ -1,9 +1,10 @@
 "use client";
 import Image from 'next/image';
-import Clue from '../types/Clue';
 import styles from '../app/page.module.css';
+import Clue from '@/types/Clue';
+import Song from '@/types/Song';
 
-export default function ClueContainer( { clue } : { clue : Clue } ){
+export default function ClueContainer( { clue, solution = undefined } : { clue : Clue, solution? : Song } ){
     return (
         <div className={styles["clue-container"]}>
             <div className={styles["language-container"]}>
@@ -13,6 +14,14 @@ export default function ClueContainer( { clue } : { clue : Clue } ){
             </div>
             <div className={styles["lyric-container"]}>
                 <img className={styles["lyric-flag-blur"]} src={"/" + clue.language.code + ".png"}/>
+                {
+                    solution && (
+                        <div id={styles["solution-container"]}>
+                            <img src={solution.thumb} alt={solution.title}/>
+                            <span>{solution.title}</span>
+                        </div>
+                    )
+                }
                 {   clue.lyrics.split("\n").map( (line, j) => {
                         return(<div className={styles["lyric-line"]} key={j}>{line}</div>)
                     })

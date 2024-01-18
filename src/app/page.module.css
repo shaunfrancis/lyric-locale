@@ -24,16 +24,15 @@
 #clues-container{
     width:100vw;
     max-width:950px;
-    padding-bottom:100px;
 }
 
 .clue-container{
     display:flex;
     align-items:flex-end;
     margin:150px 25px;
-    counter-reset: line;
 }
     .clue-container:first-child{ margin-top: 120px }
+
 
 .language-container{
     flex:0 0 150px;
@@ -58,7 +57,7 @@
     position:relative;
 
     white-space:pre-line;
-    padding:50px 50px 50px 60px;
+    padding:50px 0;
     
     display:inline-block;
 
@@ -69,7 +68,6 @@
 
     font-weight:900;
     font-size:1.8em;
-    text-transform:capitalize;
 }
 
 .lyric-flag-blur{
@@ -87,20 +85,22 @@
 
 .lyric-line{
     margin:15px 0;
-    position:relative;
+    padding:0 50px;
 }
-.lyric-line:before{
-    counter-increment:line;
-    content:counter(line);
-    font-size:0.5em;
-    position:absolute;
-    height: 100%;
-    left:-30px;
-    display:flex;
-    align-items:center;
-    opacity:0.5;
 
-    display:none;
+#solution-container{
+    background:rgba(0,0,0,0.5);
+    padding:30px 50px;
+    margin:-50px 0 30px 0;
+    border-top-left-radius:30px;
+    border-top-right-radius:30px;
+    display:flex;
+    gap:30px;
+    align-items:center;
+}
+
+#solution-container img{
+    width:100px;
 }
 
 #play-container{
@@ -111,7 +111,11 @@
     display:flex;
     padding:20px 20px 0 20px;
     gap:20px;
+    transition:bottom 200ms;
 }
+    #play-container.game-over{
+        bottom:-150px;
+    }
 
 #play-gradient{
     position:absolute;

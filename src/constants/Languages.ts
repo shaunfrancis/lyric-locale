@@ -1,15 +1,11 @@
-const Languages = [
+import Language from "@/types/Language";
+
+const Languages : Language[] = [
     {
         code: "de",
         enName: "German",
         localName: "Deutsch",
         ratio: 3 / 5
-    },
-    {
-        code: "en",
-        enName: "English",
-        localName: "English",
-        ratio: 1 / 2
     },
     {
         code: "fr",
@@ -48,13 +44,21 @@ const Languages = [
         localName: "Português",
         ratio: 2 / 3,
         squareSrc: "pt-sq"
-    },
-    {
-        code: "missing",
-        enName: "Missing Data",
-        localName: "Missing Data",
-        ratio: 1
     }
 ];
 
-export { Languages };
+const EnglishLanguage : Language = {
+    code: "en",
+    enName: "English",
+    localName: "English",
+    ratio: 1 / 2
+};
+
+const DefaultLanguage : Language = {
+    code: "missing",
+    enName: "Missing Data",
+    localName: "Missing Data",
+    ratio: 1
+};
+
+export { Languages, EnglishLanguage, DefaultLanguage };

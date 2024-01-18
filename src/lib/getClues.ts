@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import Clue, { ClueWithoutLanguage } from '../types/Clue';
-import { Languages } from '@/constants/Languages';
+import { DefaultLanguage, Languages } from '@/constants/Languages';
 
 export default async function getClues(id: number) : Promise<Clue[]>{
     const connection = await mysql.createConnection({
@@ -16,7 +16,7 @@ export default async function getClues(id: number) : Promise<Clue[]>{
         );
 
         results.forEach( clue => {
-            const language = Languages.find( c => c.code == clue.language ) || Languages.find( c => c.code == "missing" );
+            const language = Languages.find( c => c.code == clue.language ) || DefaultLanguage;
             clue.language = language;
         });
 

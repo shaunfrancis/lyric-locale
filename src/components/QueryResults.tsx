@@ -1,11 +1,11 @@
 import { GuessInputIndicatorClass } from '@/types/GuessInputIndicatorClass';
 import styles from '../app/page.module.css';
 import { Dispatch, SetStateAction } from 'react';
-import SongResult from '@/types/SongResult';
+import Song from '@/types/Song';
 
 export default function QueryResults( 
     { results, inputIsFocused, selectSong } : 
-    { results : SongResult[] | null, inputIsFocused : boolean, selectSong : (song : SongResult | null) => void } 
+    { results : Song[] | null, inputIsFocused : boolean, selectSong : (song : Song | null) => void } 
 ){
 
     if(Array.isArray(results)){
@@ -13,7 +13,7 @@ export default function QueryResults(
             <div id={styles["query-results"]} className={inputIsFocused ? styles["visible"] : ""}>
                 {
                     results.length > 0 ?
-                    results.map( (result : SongResult, index : number) => {
+                    results.map( (result : Song, index : number) => {
                         return (
                             <div key={index} className={styles["query-result"]} onMouseDown={e => e.preventDefault()} onClick={() => selectSong(result)}>
                                 <img src={result.thumb} alt={result.title + " thumbnail"} />
