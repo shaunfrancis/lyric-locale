@@ -4,7 +4,7 @@
         <style>
             path{
                 fill: none;
-                stroke: #fff;
+                stroke: rgb(35,200,35);
                 stroke-width: 20;
                 stroke-linecap: round;
                 stroke-linejoin: round;

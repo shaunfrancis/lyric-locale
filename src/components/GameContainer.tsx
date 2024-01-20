@@ -108,7 +108,8 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
         }
     return(
         <>
-            <button onClick={tempcreatenewgame}>CREATE NEW GAME</button>
+            <button onClick={tempcreatenewgame} style={{position:"absolute",top:"60px",left:"20px",display:"none"}}>CREATE NEW GAME</button>
+            <h1 id={styles["title"]}>LyricLocale #{game.id}</h1>
             <ProgressContainer clues={clues} count={count} gameOver={gameOver} didWin={didWin} />
             <div id={styles["clues-container"]} style={{paddingBottom: gameOver ? "0px" : "100px"}}>
             {   
