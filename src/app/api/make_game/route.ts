@@ -21,7 +21,7 @@ export async function GET(request: Request) : Promise<Response> {
 
     try{
         //choose a song from table
-        const [chooseSong] = await connection.query<RowDataPacket[]>( 'SELECT id, title FROM unnamed_song_game_songs WHERE id=94 AND status = 0 ORDER BY RAND() LIMIT 1' );
+        const [chooseSong] = await connection.query<RowDataPacket[]>( 'SELECT id, title FROM unnamed_song_game_songs WHERE status = 0 ORDER BY RAND() LIMIT 1' );
         const song = chooseSong[0] as {id : number, title : string};
 
         //check that song exists on user search API (Discogs)
@@ -80,23 +80,21 @@ export async function GET(request: Request) : Promise<Response> {
 
 
         //translate song lyrics
-        //const translate = new GoogleTranslate.Translate();
 
+        //const translate = new GoogleTranslate.Translate();
         const langs : Language[] = Languages.sort(() => Math.random() - Math.random()).slice(0, 6);
         const clues : any[] = [];
-        let incorrectSourceLanguage = false;
-        langs.forEach( (language, index) => {
-            if(incorrectSourceLanguage) return;
-            //const translatedLyrics = await translate.translate(lyrics, language.code);
-            //if(translatedLyrics[1].data.translations[0].detectedSourceLanguage != "en") incorrectSourceLanguage = true;
-            
-            const translatedLyrics = "Translated lyrics here";
 
-            const clue = [index+1, language.code, translatedLyrics];
+        for(let index = 0; index < langs.length; index++){
+            //const translatedLyrics = await translate.translate(lyrics, langs[index].code);
+            const translatedLyrics : [string, {data:{translations:[{detectedSourceLanguage:string}]}}] = ["Translated lyrics here", {data:{translations:[{detectedSourceLanguage:"en"}]}}]; //dummy data
+
+            if(translatedLyrics[1].data.translations[0].detectedSourceLanguage != "en") return rejectSong(song, 3);
+
+            const clue = [index+1, langs[index].code, translatedLyrics[0]];
             clues.push(clue);
 
-        });
-        if(incorrectSourceLanguage) return rejectSong(song, 3);
+        };
         
         //create game
         const createGameSql = 'INSERT INTO unnamed_song_game_games (song_id, solution_id, lyrics, thumb) VALUES (?,?,?,?)';
