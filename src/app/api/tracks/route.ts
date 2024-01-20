@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Song from '@/types/Song';
 import { NextRequest } from 'next/server';
 

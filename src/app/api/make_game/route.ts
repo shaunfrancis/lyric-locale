@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Languages } from '@/constants/Languages';
 import DiscogsSong from '@/types/Song';
 import mysql, { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
