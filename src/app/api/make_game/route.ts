@@ -2,28 +2,21 @@ export const dynamic = "force-dynamic";
 
 import { Languages } from '@/constants/Languages';
 import DiscogsSong from '@/types/Song';
-import mysql, { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import { sql } from '@vercel/postgres';
 import { Client, Song as GeniusSong } from 'genius-lyrics';
 import { v2 as GoogleTranslate } from '@google-cloud/translate';
 import Language from '@/types/Language';
 
 export async function GET(request: Request) : Promise<Response> {
-    
-    const connection = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME
-    });
 
     const rejectSong = async ( song : {id : number, title : string}, reason : number) => {
-        await connection.execute( 'UPDATE unnamed_song_game_songs SET status = ? WHERE id = ?', [reason, song.id] );
+        await sql`UPDATE songs SET status = ${reason} WHERE id = ${song.id}`;
         return Response.json( {status : 400, error : reason, title: song.title } );
     };
 
     try{
         //choose a song from table
-        const [chooseSong] = await connection.query<RowDataPacket[]>( 'SELECT id, title FROM unnamed_song_game_songs WHERE status = 0 ORDER BY RAND() LIMIT 1' );
+        const { rows : chooseSong } = await sql`SELECT id, title FROM songs WHERE status = 0 ORDER BY RANDOM() LIMIT 1`;
         const song = chooseSong[0] as {id : number, title : string};
 
         //check that song exists on user search API (Discogs)
@@ -89,7 +82,7 @@ export async function GET(request: Request) : Promise<Response> {
 
         for(let index = 0; index < langs.length; index++){
             //const translatedLyrics = await translate.translate(lyrics, langs[index].code);
-            const translatedLyrics : [string, {data:{translations:[{detectedSourceLanguage:string}]}}] = ["Translated lyrics here", {data:{translations:[{detectedSourceLanguage:"en"}]}}]; //dummy data
+            const translatedLyrics : [string, {data:{translations:[{detectedSourceLanguage:string}]}}] = ["Translated lyrics", {data:{translations:[{detectedSourceLanguage:"en"}]}}]; //dummy data
 
             if(translatedLyrics[1].data.translations[0].detectedSourceLanguage != "en") return rejectSong(song, 3);
 
@@ -99,15 +92,21 @@ export async function GET(request: Request) : Promise<Response> {
         };
         
         //create game
-        const createGameSql = 'INSERT INTO unnamed_song_game_games (song_id, solution_id, lyrics, thumb) VALUES (?,?,?,?)';
-        const [createGameResult] = await connection.execute( createGameSql, [song.id, discogsSong.id, lyrics, discogsSong.thumb] );
+        await sql`INSERT INTO games (song_id, solution_id, lyrics, thumb) VALUES (${song.id},${discogsSong.id},${lyrics},${discogsSong.thumb})`;
+        
+        const { rows: id_check } = await sql`SELECT MAX(id) as max FROM games`;
+        const game_id = id_check[0].max;
+        
+        await sql`INSERT INTO clues (game_id, level, language, lyrics) VALUES
+            (${game_id}, ${clues[0][0]}, ${clues[0][1]}, ${clues[0][2]}),
+            (${game_id}, ${clues[1][0]}, ${clues[1][1]}, ${clues[1][2]}),
+            (${game_id}, ${clues[2][0]}, ${clues[2][1]}, ${clues[2][2]}),
+            (${game_id}, ${clues[3][0]}, ${clues[3][1]}, ${clues[3][2]}),
+            (${game_id}, ${clues[4][0]}, ${clues[4][1]}, ${clues[4][2]}),
+            (${game_id}, ${clues[5][0]}, ${clues[5][1]}, ${clues[5][2]})
+        `;
 
-        const game_id = (createGameResult as ResultSetHeader).insertId;
-
-        const createCluesSql = 'INSERT INTO unnamed_song_game_clues (game_id, level, language, lyrics) VALUES (?,?,?,?),(?,?,?,?),(?,?,?,?),(?,?,?,?),(?,?,?,?),(?,?,?,?)';
-        await connection.execute( createCluesSql, clues.map( clue => { return [game_id, ...clue] } ).flat(1) );
-
-        await connection.execute( 'UPDATE unnamed_song_game_songs SET status = ? WHERE id = ?', [9, song.id] );
+        await sql`UPDATE songs SET status = 9 WHERE id = ${song.id}`;
         return Response.json( { status : 200, title: song.title } );
 
     }

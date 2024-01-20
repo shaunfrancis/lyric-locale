@@ -39,7 +39,7 @@ export default function QueryInput(
 
         awaitingSearchTimeout.current = setTimeout( async () => {
             if(query != awaitingQuery.current) return;
-
+            
             const res = await fetch("/api/tracks?query=" + query);
             const json = await res.json();
             setResults(json);

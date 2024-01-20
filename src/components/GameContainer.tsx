@@ -101,8 +101,14 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             </button>
         );
 
+        async function tempcreatenewgame(){
+            const x = await fetch("/api/make_game");
+            const y = await x.json();
+            console.log(y);
+        }
     return(
         <>
+            <button onClick={tempcreatenewgame}>CREATE NEW GAME</button>
             <ProgressContainer clues={clues} count={count} gameOver={gameOver} didWin={didWin} />
             <div id={styles["clues-container"]} style={{paddingBottom: gameOver ? "0px" : "100px"}}>
             {   

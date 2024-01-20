@@ -1,6 +1,4 @@
-import { RowDataPacket } from 'mysql2'
-
-export interface Game extends RowDataPacket{
+export interface Game{
     id: number,
     solution_id: number,
     title: string,
