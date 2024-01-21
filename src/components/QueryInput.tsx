@@ -25,17 +25,17 @@ export default function QueryInput(
         
         if(query == awaitingQuery.current) return;
 
+        selectSong(null);
+        setResults(null);
+
         if(query == "" || query.length <= 3){
             clearTimeout(awaitingSearchTimeout.current);
-            setResults(null);
             awaitingQuery.current = query;
             setInputIndicator(GuessInputIndicatorClass.Static);
             return;
         }
 
-        selectSong(null);
         setInputIndicator(GuessInputIndicatorClass.Searching);
-        setResults(null);
 
         awaitingQuery.current = query;
 

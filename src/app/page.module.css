@@ -284,6 +284,13 @@
     background:rgb(40,40,40);
 }
 
+#confetti-canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
 @media screen and (max-width: 850px){
     .clue-container{
         flex-direction:column;

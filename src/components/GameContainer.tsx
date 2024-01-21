@@ -13,6 +13,7 @@ import QueryInput from './QueryInput';
 import QueryResults from './QueryResults';
 import { Game } from '@/types/Game';
 import { EnglishLanguage } from '@/constants/Languages';
+import ConfettiCanvas from './ConfettiCanvas';
 
 export default function GameContainer( {game, clues} : {game : Game, clues : Clue[]} ){
 
@@ -131,6 +132,8 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
                 </div>
                 {playButton}
             </div>
+
+            <ConfettiCanvas didWin={didWin} />
         </>
     )
 }
