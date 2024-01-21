@@ -65,6 +65,7 @@
 
 .language-container img{
     margin:10px 0;
+    height:70px;
 }
 
 .language-english-name{
@@ -204,6 +205,7 @@
     appearance:none;
     outline:none;
     border:none;
+    color:rgb(21, 21, 21);
     flex:0 0 150px;
     font-weight:900;
     font-size:1.5em;
@@ -290,13 +292,50 @@
     }
 
     .language-container{
-        flex-direction:row-reverse;
+        flex-direction:row;
         flex:0 1;
         align-items:center;
-        gap:20px;
+        gap:10px;
     }
 
     .language-container img{
         margin:0 10px 0 0;
+        height:50px;
     }
+
+    .lyric-container{
+        padding:30px 0;
+    }
+
+    .lyric-line{
+        padding:0 30px;
+    }
+
+    .lyric-flag-blur{
+        display:none;
+    }
+
+    #play-container{
+        gap:10px;
+    }
+
+    .play-button{
+        flex:0 0 60px;
+        font-size:1em;
+    }
+
+    #guess-input{
+        font-size:1.5em;
+    }
+
+    #solution-container{
+        margin-top:-30px;
+        padding:20px 30px;
+        gap:20px;
+    }
+
+    #solution-container img{
+        width:70px;
+    }
+
 }

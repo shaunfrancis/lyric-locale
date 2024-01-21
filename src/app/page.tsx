@@ -17,7 +17,9 @@ export default async function Home() {
         </div>
         <div id="title-container">
             <img src="/logo-icon.svg" style={{height:"45px"}}/>
-            <h1 id="title">LyricLocale #{game.id}</h1>
+            <h1 id="title">
+                <span id="title-name">LyricLocale </span>#{game.id}
+            </h1>
         </div>
         <nav>Buttons Here</nav>
     </header>

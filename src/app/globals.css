@@ -27,7 +27,7 @@ header{
     width:100vw;
     height:65px;
     padding:0 25px;
-    background:rgb(20,20,20);
+    background:rgb(21,21,21);
     position:fixed;
     z-index:3;
     display:flex;
@@ -51,4 +51,12 @@ header{
 nav{
     display:flex;
     justify-content:flex-end;
+}
+
+
+@media screen and (max-width: 850px){
+    html{ font-size: 9pt }
+
+    #title-container{ gap: 10px }
+    #title-name{ display:none }
 }
