@@ -25,8 +25,30 @@ main{
 
 header{
     width:100vw;
-    height:50px;
+    height:65px;
+    padding:0 25px;
     background:rgb(20,20,20);
     position:fixed;
     z-index:3;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+    header > *{ flex:0 0 calc(100% / 3) }
+
+#title-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    cursor:default;
+}
+
+#title{
+    font-size:1.8em;
+}
+
+nav{
+    display:flex;
+    justify-content:flex-end;
 }

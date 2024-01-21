@@ -6,14 +6,16 @@ const Languages : Language[] = [
         enName: "Czech",
         localName: "Čeština",
         ratio: 2 / 3,
-        squareSrc: "cs-sq"
+        squareSrc: "cs-sq",
+        difficulty: 1
     },
     {
         code: "cy",
         enName: "Welsh",
         localName: "Cymraeg",
         ratio: 3 / 5,
-        squareSrc: "cy-sq"
+        squareSrc: "cy-sq",
+        difficulty: 1
     },
     {
         code: "da",
@@ -40,7 +42,8 @@ const Languages : Language[] = [
         enName: "Finnish",
         localName: "Suomi",
         ratio: 11 / 18,
-        squareSrc: "fi-sq"
+        squareSrc: "fi-sq",
+        difficulty: 1
     },
     {
         code: "fr",
@@ -52,20 +55,23 @@ const Languages : Language[] = [
         code: "ga",
         enName: "Irish",
         localName: "Gaeilge",
-        ratio: 1 / 2
+        ratio: 1 / 2,
+        difficulty: 1
     },
     {
         code: "gd",
         enName: "Scots Gaelic",
         localName: "Gàidhlig",
         ratio: 3 / 5,
-        squareSrc: "gd-sq"
+        squareSrc: "gd-sq",
+        difficulty: 1
     },
     {
         code: "hu",
         enName: "Hungarian",
         localName: "Magyar",
-        ratio: 1 / 2
+        ratio: 1 / 2,
+        difficulty: 1
     },
     {
         code: "is",
@@ -91,7 +97,8 @@ const Languages : Language[] = [
         enName: "Maltese",
         localName: "Malti",
         ratio: 2 / 3,
-        squareSrc: "mt-sq"
+        squareSrc: "mt-sq",
+        difficulty: 1
     },
     {
         code: "nl",
@@ -110,7 +117,8 @@ const Languages : Language[] = [
         code: "pl",
         enName: "Polish",
         localName: "Polski",
-        ratio: 5 / 8
+        ratio: 5 / 8,
+        difficulty: 1
     },
     {
         code: "pt",

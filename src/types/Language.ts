@@ -3,5 +3,6 @@ export default interface Language{
     enName: string,
     localName: string,
     ratio: number,
-    squareSrc?: string
+    squareSrc?: string,
+    difficulty?: number
 }

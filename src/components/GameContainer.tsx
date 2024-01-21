@@ -2,7 +2,7 @@
 
 import styles from '../app/page.module.css';
 
-import { MutableRefObject, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import Clue from '@/types/Clue';
 
 import ClueContainer from './ClueContainer';
@@ -24,8 +24,14 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
     const [gameOver, setGameOver] = useState<boolean>(false);
     const [didWin, setDidWin] = useState<boolean>(false);
     const guessInputRef = useRef(null) as MutableRefObject<HTMLInputElement | null>;
-    const currentClue = useRef(null) as MutableRefObject<HTMLDivElement | null>;
     const firstGuess = useRef(true);
+    const clueContainers = Array.from(Array(7), () => useRef(null) as MutableRefObject<HTMLDivElement | null>);
+
+    useEffect(() => {
+        if(count == 0) return;
+        if(clueContainers[count].current) clueContainers[count].current!.scrollIntoView({ behavior: "smooth" });
+    }, [count]);
+    
 
     const solutionClue : Clue = {
         level: 7,
@@ -59,10 +65,6 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             if(guessInputRef.current) guessInputRef.current.blur();
         }
         else setCount(count + 1);
-        
-        setTimeout( () => { //await render
-            if(currentClue.current) currentClue.current.scrollIntoView({ behavior: "smooth" });
-        }, 1);
     }
 
     const makeGuess = (song: Song) : void => {
@@ -83,9 +85,6 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             setGameOver(true);
             setCount(6);
             if(guessInputRef.current) guessInputRef.current.blur();
-            setTimeout( () => { //await render
-                if(currentClue.current) currentClue.current.scrollIntoView({ behavior: "smooth" });
-            }, 1);
         }
     }
 
@@ -109,20 +108,17 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
     return(
         <>
             <button onClick={tempcreatenewgame} style={{position:"absolute",top:"60px",left:"20px",display:"none"}}>CREATE NEW GAME</button>
-            <h1 id={styles["title"]}>LyricLocale #{game.id}</h1>
-            <ProgressContainer clues={clues} count={count} gameOver={gameOver} didWin={didWin} />
+            
+            <ProgressContainer clues={clues} clueContainers={clueContainers} count={count} gameOver={gameOver} didWin={didWin} />
             <div id={styles["clues-container"]} style={{paddingBottom: gameOver ? "0px" : "100px"}}>
             {   
                 clues.map( (clue : Clue, index : number) => {
-                    let currentClueProp;
-                    if(!gameOver && index == count) currentClueProp = currentClue;
-
-                    return (index <= count) && ( <ClueContainer key={index} clue={clue} currentClue={currentClueProp} /> )
+                    return (index <= count) && ( <ClueContainer key={index} clue={clue} containerRef={clueContainers[index]} /> )
                 })
             }
             {
                 gameOver && ( 
-                    <ClueContainer clue={solutionClue} solution={solutionSong} currentClue={currentClue} /> 
+                    <ClueContainer clue={solutionClue} solution={solutionSong} containerRef={clueContainers[6]} /> 
                 )
             }
             </div>
@@ -130,7 +126,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             <div id={styles["play-container"]} className={gameOver ? styles["game-over"] : ""}>
                 <div id={styles["play-gradient"]}></div>
                 <div id={styles["guess-container"]}>
-                    <QueryInput guessInputRef={guessInputRef} setResults={setQueryResults} setInputIsFocused={setInputIsFocused} inputIndicator={inputIndicator} setInputIndicator={setInputIndicator} selectSong={selectSong}  />
+                    <QueryInput guessInputRef={guessInputRef} setResults={setQueryResults} setInputIsFocused={setInputIsFocused} inputIndicator={inputIndicator} setInputIndicator={setInputIndicator} selectSong={selectSong} game={game}  />
                     <QueryResults results={queryResults} inputIsFocused={inputIsFocused} selectSong={selectSong} />
                 </div>
                 {playButton}

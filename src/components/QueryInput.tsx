@@ -2,16 +2,18 @@ import { GuessInputIndicatorClass } from '@/types/GuessInputIndicatorClass';
 import styles from '../app/page.module.css';
 import { useRef, Dispatch, SetStateAction, MutableRefObject } from 'react';
 import Song from '@/types/Song';
+import { Game } from '@/types/Game';
 
 export default function QueryInput( 
-    {guessInputRef, setResults, setInputIsFocused, inputIndicator, setInputIndicator, selectSong} : 
+    {guessInputRef, setResults, setInputIsFocused, inputIndicator, setInputIndicator, selectSong, game} : 
     {
         guessInputRef :  MutableRefObject<HTMLInputElement | null>,
         setResults : Dispatch<SetStateAction<Array<Song> | null>>, 
         setInputIsFocused : Dispatch<SetStateAction<boolean>>, 
         inputIndicator : GuessInputIndicatorClass, 
         setInputIndicator : Dispatch<SetStateAction<GuessInputIndicatorClass>>,
-        selectSong : (song: Song | null) => void
+        selectSong : (song: Song | null) => void,
+        game: Game
     } 
 ){
 
@@ -41,8 +43,21 @@ export default function QueryInput(
             if(query != awaitingQuery.current) return;
             
             const res = await fetch("/api/tracks?query=" + query);
-            const json = await res.json();
-            setResults(json);
+            const json = await res.json() as Song[];
+
+            if(json.find( s => s.id == game.solution_id) ){ //prevent songs with identical names (i.e. probably covers) if solution is present
+                const songs : Song[] = [];
+                json.forEach( s => {
+                    if(s.id == game.solution_id) songs.push(s);
+                    else{
+                        const title = game.title.split(" - ")[1];
+                        if(!title || !(s.title.toLowerCase().includes(title.toLowerCase()))) songs.push(s);
+                    }
+                });
+                setResults(songs);
+            }
+            else setResults(json);
+            
             setInputIndicator(GuessInputIndicatorClass.Static);
 
         }, 1000);

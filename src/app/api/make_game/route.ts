@@ -14,6 +14,19 @@ export async function GET(request: Request) : Promise<Response> {
         return Response.json( {status : 400, error : reason, title: song.title } );
     };
 
+    const clean = (title : string) : string => {
+        //weird spaces and apstrophes
+        title = title.replace(/[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g, " ").replace(/’/g,"'");
+
+        //asterisks after artists
+        title = title.replace(/\* - /g, " - ");
+
+        //bracketed numbers after artists
+        title = title.replace(/\([0-9]*\) - /g, "- ");
+
+        return title.toLowerCase();
+    }
+
     try{
         //choose a song from table
         const { rows : chooseSong } = await sql`SELECT id, title FROM songs WHERE status = 0 ORDER BY RANDOM() LIMIT 1`;
@@ -24,12 +37,11 @@ export async function GET(request: Request) : Promise<Response> {
             headers: { "User-Agent": "unnamedSongGame/0.0 +https://tennessine.co.uk" }
         });
         const discogsCheck = await discogsCheckRequest.json() as {results : DiscogsSong[]};
-        discogsCheck.results.forEach( s => s.title = s.title.replace(/\([0-9]*\) - /g, "- ") );
+        discogsCheck.results.forEach( s => s.title = clean(s.title) );
 
         let fail = false;
         if(discogsCheck.results.length == 0) fail = true; //no results
-        else if(discogsCheck.results[0].title.toLowerCase() != song.title.toLowerCase()) fail = true; //title of first result is not identical to chosen song title
-        else if(discogsCheck.results.find( s => s.title.toLowerCase() == song.title.toLowerCase() && s != discogsCheck.results[0])) fail = true; //duplicate results
+        else if(discogsCheck.results[0].title != song.title.toLowerCase()) fail = true; //title of first result is not identical to chosen song title
 
         const discogsSong = discogsCheck.results[0];
         if(fail) return rejectSong(song, 1);
@@ -40,7 +52,7 @@ export async function GET(request: Request) : Promise<Response> {
         const geniusCheck = await GeniusClient.songs.search(song.title);
         
         const compatibleTitles = geniusCheck.map( s => {
-            const fragments = s.fullTitle.replace(/[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g, " ").replace(/’/g,"'").split(" by ");
+            const fragments = clean(s.fullTitle).split(" by ");
             let title;
             if(fragments.length != 2) title = "";
             else title = fragments[1] + " - " + fragments[0];
@@ -48,7 +60,7 @@ export async function GET(request: Request) : Promise<Response> {
             return {song: s, compatibleTitle: title}
         });
 
-        const compatibleTitleResult = compatibleTitles.find( s => s.compatibleTitle.toLowerCase() == song.title.toLowerCase() );
+        const compatibleTitleResult = compatibleTitles.find( s => s.compatibleTitle == song.title.toLowerCase() );
         if(!compatibleTitleResult) return rejectSong(song, 2);
 
         const geniusSong = compatibleTitleResult.song;
@@ -77,7 +89,9 @@ export async function GET(request: Request) : Promise<Response> {
         //translate song lyrics
 
         //const translate = new GoogleTranslate.Translate();
-        const langs : Language[] = Languages.sort(() => Math.random() - Math.random()).slice(0, 6);
+        const langs : Language[] = Languages.filter(l => l.difficulty == 1).sort(() => Math.random() - Math.random()).slice(0, 1);
+        langs.push(...Languages.filter(l => !l.difficulty).sort(() => Math.random() - Math.random()).slice(0, 5));
+        
         const clues : any[] = [];
 
         for(let index = 0; index < langs.length; index++){
