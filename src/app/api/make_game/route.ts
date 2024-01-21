@@ -34,7 +34,7 @@ export async function GET(request: Request) : Promise<Response> {
 
         //check that song exists on user search API (Discogs)
         const discogsCheckRequest = await fetch(process.env.TRACK_SEARCH_URL + "&type=master&format=single&per_page=5&q=" + song.title, {
-            headers: { "User-Agent": "unnamedSongGame/0.0 +https://tennessine.co.uk" }
+            headers: { "User-Agent": "lyricLocale/1.0 +https://lyriclocale.tennessine.co.uk" }
         });
         const discogsCheck = await discogsCheckRequest.json() as {results : DiscogsSong[]};
         discogsCheck.results.forEach( s => s.title = clean(s.title) );
