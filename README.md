@@ -1,1 +1,1 @@
-# unnamed-song-game
+# lyric-locale
