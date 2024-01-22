@@ -18,13 +18,14 @@ import ShareContainer from './ShareContainer';
 
 export default function GameContainer( {game, clues} : {game : Game, clues : Clue[]} ){
 
-    const [ count, setCount ] = useState<number>(0);
+    const [count, setCount] = useState<number>(0);
     const [inputIndicator, setInputIndicator] = useState<GuessInputIndicatorClass>(GuessInputIndicatorClass.Static);
     const [selectedSong, setSelectedSong] = useState<Song | null>(null);
     const [queryResults, setQueryResults] = useState<Song[] | null>(null);
     const [inputIsFocused, setInputIsFocused] = useState<boolean>(false);
     const [gameOver, setGameOver] = useState<boolean>(false);
     const [didWin, setDidWin] = useState<boolean>(false);
+    const [winningCount, setWinningCount] = useState<number>(-1);
     const guessInputRef = useRef(null) as MutableRefObject<HTMLInputElement | null>;
     const firstGuess = useRef(true);
     const clueContainers = Array.from(Array(7), () => useRef(null) as MutableRefObject<HTMLDivElement | null>);
@@ -83,6 +84,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             nextClue();
         }
         else{
+            setWinningCount(count);
             setDidWin(true);
             setGameOver(true);
             setCount(6);
@@ -113,7 +115,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             
             <div id={styles["status-container"]}>
                 <ProgressContainer clues={clues} clueContainers={clueContainers} count={count} gameOver={gameOver} didWin={didWin} />
-                { gameOver && <ShareContainer gameOver={gameOver} /> }
+                { gameOver && <ShareContainer id={game.id} count={winningCount} clues={clues} didWin={didWin} /> }
             </div>
 
             <div id={styles["clues-container"]} style={{paddingBottom: gameOver ? "0px" : "100px"}}>

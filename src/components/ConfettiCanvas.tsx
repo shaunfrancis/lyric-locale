@@ -14,12 +14,16 @@ type Particle = {
 export default function ConfettiCanvas( { didWin } : { didWin : boolean } ){
     const canvasRef = useRef(null) as MutableRefObject<HTMLCanvasElement | null>;
     
-    const [width, setWidth] = useState<number>(window.innerWidth);
-    const [height, setHeight] = useState<number>(window.innerHeight);
-    window.addEventListener('resize', () => {
+    const [width, setWidth] = useState<number>(0);
+    const [height, setHeight] = useState<number>(0);
+    const setDims = () => {
         setWidth(window.innerWidth);
         setHeight(window.innerHeight);
-    });
+    };
+    useEffect(() => {
+        setDims();
+        window.addEventListener('resize', setDims);
+    }, []);
 
     const colors = ["rgba(231,76,60,1)","rgba(230,126,34,1)","rgba(241,196,15,1)","rgba(26,188,156,1)","rgba(46,204,113,1)","rgba(52,152,219,1)","rgba(155,89,182,1)"];
 

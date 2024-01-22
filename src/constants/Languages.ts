@@ -3,6 +3,7 @@ import Language from "@/types/Language";
 const Languages : Language[] = [
     {
         code: "cs",
+        flag: "🇨🇿",
         enName: "Czech",
         localName: "Čeština",
         ratio: 2 / 3,
@@ -11,6 +12,7 @@ const Languages : Language[] = [
     },
     {
         code: "cy",
+        flag: "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
         enName: "Welsh",
         localName: "Cymraeg",
         ratio: 3 / 5,
@@ -19,6 +21,7 @@ const Languages : Language[] = [
     },
     {
         code: "da",
+        flag: "🇩🇰",
         enName: "Danish",
         localName: "Dansk",
         ratio: 28 / 37,
@@ -26,12 +29,14 @@ const Languages : Language[] = [
     },
     {
         code: "de",
+        flag: "🇩🇪",
         enName: "German",
         localName: "Deutsch",
         ratio: 3 / 5
     },
     {
         code: "es",
+        flag: "🇪🇸",
         enName: "Spanish",
         localName: "Español",
         ratio: 2 / 3,
@@ -39,6 +44,7 @@ const Languages : Language[] = [
     },
     {
         code: "fi",
+        flag: "🇫🇮",
         enName: "Finnish",
         localName: "Suomi",
         ratio: 11 / 18,
@@ -47,12 +53,14 @@ const Languages : Language[] = [
     },
     {
         code: "fr",
+        flag: "🇫🇷",
         enName: "French",
         localName: "Français",
         ratio: 2 / 3
     },
     {
         code: "ga",
+        flag: "🇮🇪",
         enName: "Irish",
         localName: "Gaeilge",
         ratio: 1 / 2,
@@ -60,6 +68,7 @@ const Languages : Language[] = [
     },
     {
         code: "gd",
+        flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
         enName: "Scots Gaelic",
         localName: "Gàidhlig",
         ratio: 3 / 5,
@@ -68,6 +77,7 @@ const Languages : Language[] = [
     },
     {
         code: "hu",
+        flag: "🇭🇺",
         enName: "Hungarian",
         localName: "Magyar",
         ratio: 1 / 2,
@@ -75,6 +85,7 @@ const Languages : Language[] = [
     },
     {
         code: "is",
+        flag: "🇮🇸",
         enName: "Icelandic",
         localName: "Íslenska",
         ratio: 18 / 25,
@@ -82,18 +93,21 @@ const Languages : Language[] = [
     },
     {
         code: "it",
+        flag: "🇮🇹",
         enName: "Italian",
         localName: "Italiano",
         ratio: 2 / 3
     },
     {
         code: "lb",
+        flag: "🇱🇺",
         enName: "Luxembourgish",
         localName: "Lëtzebuergesch",
         ratio: 3 / 5
     },
     {
         code: "mt",
+        flag: "🇲🇹",
         enName: "Maltese",
         localName: "Malti",
         ratio: 2 / 3,
@@ -102,12 +116,14 @@ const Languages : Language[] = [
     },
     {
         code: "nl",
+        flag: "🇳🇱",
         enName: "Dutch",
         localName: "Nederlands",
         ratio: 2 / 3
     },
     {
         code: "no",
+        flag: "🇳🇴",
         enName: "Norwegian",
         localName: "Norsk",
         ratio: 8 / 11,
@@ -115,6 +131,7 @@ const Languages : Language[] = [
     },
     {
         code: "pl",
+        flag: "🇵🇱",
         enName: "Polish",
         localName: "Polski",
         ratio: 5 / 8,
@@ -122,6 +139,7 @@ const Languages : Language[] = [
     },
     {
         code: "pt",
+        flag: "🇵🇹",
         enName: "Portuguese",
         localName: "Português",
         ratio: 2 / 3,
@@ -129,6 +147,7 @@ const Languages : Language[] = [
     },
     {
         code: "sv",
+        flag: "🇸🇪",
         enName: "Swedish",
         localName: "Svenska",
         ratio: 5 / 8,
@@ -138,6 +157,7 @@ const Languages : Language[] = [
 
 const EnglishLanguage : Language = {
     code: "en",
+    flag: "🇬🇧",
     enName: "English",
     localName: "English",
     ratio: 1 / 2
@@ -145,6 +165,7 @@ const EnglishLanguage : Language = {
 
 const DefaultLanguage : Language = {
     code: "missing",
+    flag: "🌐",
     enName: "Missing Data",
     localName: "Missing Data",
     ratio: 1

@@ -13,7 +13,14 @@ body{
     font-weight:500;
 }
 
-body, input{ font-family:var(--roboto) }
+body, input, button{ font-family:var(--roboto) }
+
+button{
+    -webkit-appearance:none;
+    appearance:none;
+    outline:none;
+    border:none;
+}
 
 main{
     display:flex;
