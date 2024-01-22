@@ -30,23 +30,56 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
     const firstGuess = useRef(true);
     const clueContainers = Array.from(Array(7), () => useRef(null) as MutableRefObject<HTMLDivElement | null>);
 
+    let storedStats = useRef([]) as MutableRefObject<{id : number, count : number, won : number}[]>;
+    useEffect(() => {
+        if(!localStorage.getItem("game-stats")) localStorage.setItem("game-stats", "[]");
+        else{
+            const stats = JSON.parse(localStorage.getItem("game-stats")!);
+            if(!stats || !Array.isArray(stats)) return localStorage.setItem("game-stats", "[]");
+
+            stats.forEach( stat => {
+                const isValidType = ["id","count","won"].every( k => k in stat && typeof stat[k] == "number" );
+                if(typeof stat === "object" && isValidType) storedStats.current.push(stat);
+            });
+
+            const todaysGame = stats.find( stat => stat.id == game.id );
+            if(todaysGame){
+                let todaysCount = isNaN(parseInt(todaysGame.count)) ? 0 : parseInt(todaysGame.count);
+                todaysCount = Math.max(0, Math.min(6, todaysCount));
+
+                if("won" in todaysGame && todaysGame.won == 1){
+                    setWinningCount(todaysCount);
+                    setDidWin(true);
+                    setGameOver(true);
+                    setCount(6);
+                }
+                else{
+                    if(todaysCount == 6) setGameOver(true);
+                    setCount(todaysCount);
+                }
+            }
+        }
+    }, []);
+
+    const updateStoredStats = (newCount : number, newDidWin : boolean = false) => {
+        const todaysGame = storedStats.current.find( stat => stat.id == game.id );
+        if(todaysGame){
+            todaysGame.count = newCount;
+            todaysGame.won = newDidWin ? 1 : 0;
+        }
+        else storedStats.current.push({ id: game.id, count: newCount, won: newDidWin ? 1 : 0});
+
+        localStorage.setItem("game-stats", JSON.stringify(storedStats.current));
+    }
+
     useEffect(() => {
         if(count == 0) return;
         if(clueContainers[count].current) clueContainers[count].current!.scrollIntoView({ behavior: "smooth" });
     }, [count]);
     
 
-    const solutionClue : Clue = {
-        level: 7,
-        lyrics: game.lyrics,
-        language: EnglishLanguage
-    }
-
-    const solutionSong : Song = {
-        id: game.solution_id,
-        title: game.title,
-        thumb: game.thumb
-    }
+    const solutionClue : Clue = { level: 7, lyrics: game.lyrics, language: EnglishLanguage }
+    const solutionSong : Song = { id: game.solution_id, title: game.title, thumb: game.thumb }
 
     const selectSong = (song : Song | null) => {
         setSelectedSong(song);
@@ -62,6 +95,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
     }
 
     const nextClue = () : void => {
+        updateStoredStats(count + 1);
         if(count == 5){
             setGameOver(true);
             setCount(6);
@@ -84,6 +118,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             nextClue();
         }
         else{
+            updateStoredStats(count, true);
             setWinningCount(count);
             setDidWin(true);
             setGameOver(true);
@@ -114,7 +149,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             <button onClick={tempcreatenewgame} style={{position:"absolute",top:"60px",left:"20px",display:"none"}}>CREATE NEW GAME</button>
             
             <div id={styles["status-container"]}>
-                <ProgressContainer clues={clues} clueContainers={clueContainers} count={count} gameOver={gameOver} didWin={didWin} />
+                <ProgressContainer clues={clues} clueContainers={clueContainers} count={count} winningCount={winningCount} gameOver={gameOver} didWin={didWin} />
                 { gameOver && <ShareContainer id={game.id} count={winningCount} clues={clues} didWin={didWin} /> }
             </div>
 

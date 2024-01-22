@@ -3,11 +3,12 @@ import styles from '../app/page.module.css';
 import Clue from "@/types/Clue";
 
 export default function ProgressContainer( 
-    {clues, count, gameOver, didWin, clueContainers} : 
-    {clues : Clue[], count : number, gameOver : boolean, didWin : boolean, clueContainers : MutableRefObject<HTMLDivElement | null>[]}
+    {clues, count, winningCount, gameOver, didWin, clueContainers} : 
+    {clues : Clue[], count : number, winningCount : number, gameOver : boolean, didWin : boolean, clueContainers : MutableRefObject<HTMLDivElement | null>[]}
 ){
     const currentCount = useRef<number>(0);
-    if(!gameOver) currentCount.current = count;
+    if(didWin) currentCount.current = winningCount;
+    else currentCount.current = count;
 
     const scrollTo = (index : number) => {
         if(clueContainers[index].current) clueContainers[index].current!.scrollIntoView();
