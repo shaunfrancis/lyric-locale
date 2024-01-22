@@ -62,7 +62,7 @@
     align-items:center;
     gap:10px;
     overflow:hidden;
-    animation:shareButtonGrow 500ms forwards;
+    animation:shareButtonGrow 200ms forwards;
 }
     @keyframes shareButtonGrow{ from{ width: 0; padding:0; opacity: 0 } to{ width: 135px; padding:0 30px; opacity: 1 } }
     
