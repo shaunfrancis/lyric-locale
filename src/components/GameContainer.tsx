@@ -14,6 +14,7 @@ import QueryResults from './QueryResults';
 import { Game } from '@/types/Game';
 import { EnglishLanguage } from '@/constants/Languages';
 import ConfettiCanvas from './ConfettiCanvas';
+import ShareContainer from './ShareContainer';
 
 export default function GameContainer( {game, clues} : {game : Game, clues : Clue[]} ){
 
@@ -110,7 +111,11 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
         <>
             <button onClick={tempcreatenewgame} style={{position:"absolute",top:"60px",left:"20px",display:"none"}}>CREATE NEW GAME</button>
             
-            <ProgressContainer clues={clues} clueContainers={clueContainers} count={count} gameOver={gameOver} didWin={didWin} />
+            <div id={styles["status-container"]}>
+                <ProgressContainer clues={clues} clueContainers={clueContainers} count={count} gameOver={gameOver} didWin={didWin} />
+                { gameOver && <ShareContainer gameOver={gameOver} /> }
+            </div>
+
             <div id={styles["clues-container"]} style={{paddingBottom: gameOver ? "0px" : "100px"}}>
             {   
                 clues.map( (clue : Clue, index : number) => {

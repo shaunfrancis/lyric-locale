@@ -1,20 +1,28 @@
-#progress-container{
+#status-container{
+    width:100vw;
     position:sticky;
     z-index:2;
     top:calc(50px + 45px);
-    width:350px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+#progress-container, .share-button{
     height:60px;
-    max-width:100vw;
     background:rgb(21, 21, 21);
-    box-shadow:0 0 30px 10px rgb(40,40,40);
     border-radius:30px;
+    box-shadow:0 0 30px 10px rgb(40,40,40);
+}
+
+#progress-container{
+    flex:0 0 350px;
     display:flex;
     align-items:center;
     justify-content:center;
     gap:20px;
-    transition:width 500ms;
 }
-    #progress-container.game-over{ width:400px }
+    #progress-container.game-over{ flex-basis:400px }
 
 .progress-square, #progress-result{
     flex:0 0 30px;
@@ -27,17 +35,37 @@
 
     #progress-result{ 
         cursor:pointer;
-        animation:grow 500ms forwards;
+        animation:progressResultGrow 200ms forwards;
         background-color:unset;
         background-size:contain;
         background-repeat:no-repeat;
         background-position:center;
     }
-    @keyframes grow{ from{ flex-basis: 0 } to{ flex-basis: 30px } }
+    @keyframes progressResultGrow{ from{ flex-basis: 0 } to{ flex-basis: 30px } }
 
     #progress-result.win{ background-image: url(/win.svg) }
     #progress-result.loss{ background-image: url(/loss.svg) }
 
+
+#share-container{
+    display:flex;
+    gap:20px;
+}
+
+.share-button{
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 30px;
+}
+
+.share-button img{
+    vertical-align:middle;
+    height:20px;
+    width:20px;
+    object-fit:cover;
+}
 
 #clues-container{
     width:100vw;
@@ -80,7 +108,7 @@
     
     display:inline-block;
 
-    background:rgb(40, 40, 40);
+    background:rgba(40, 40, 40, 0.8);
     border-radius:30px;
     box-shadow: inset 0 0 20px #cdbfbf, inset 10px 0 40px #b5bec4,
         inset 0 50px 140px #b89a9b;
@@ -101,6 +129,7 @@
     z-index:-1;
     -webkit-filter:blur(50px);
     filter:blur(50px);
+    transform: translate3d(0, 0, 0);
 }
 
 .lyric-line{
