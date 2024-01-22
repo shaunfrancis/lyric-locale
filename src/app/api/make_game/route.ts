@@ -24,7 +24,7 @@ export async function GET(request: Request) : Promise<Response> {
         //bracketed numbers after artists
         title = title.replace(/\([0-9]*\) - /g, "- ");
 
-        return title.toLowerCase();
+        return title.replace(/  +/g, " ").toLowerCase();
     }
 
     try{
@@ -57,7 +57,7 @@ export async function GET(request: Request) : Promise<Response> {
             if(fragments.length != 2) title = "";
             else title = fragments[1] + " - " + fragments[0];
 
-            return {song: s, compatibleTitle: title}
+            return {song: s, compatibleTitle: title.replace(/  +/g, " ")}
         });
 
         const compatibleTitleResult = compatibleTitles.find( s => s.compatibleTitle == song.title.toLowerCase() );
