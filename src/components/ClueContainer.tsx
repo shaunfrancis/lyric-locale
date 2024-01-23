@@ -13,14 +13,14 @@ export default function ClueContainer(
     return (
         <div className={styles["clue-container"]} ref={containerRef}>
             <div className={styles["language-container"]}>
-                <img src={"/" + clue.language.code + ".png"} alt={clue.language.enName} />
+                <img src={"/" + clue.language.code + ".png"} alt="" />
                 <div className={styles["language-name"]}>{clue.language.localName}</div>
                 { clue.language != EnglishLanguage && 
                     ( <div className={styles["language-english-name"] + " " + styles["language-name"]}>{clue.language.enName}</div> )
                 }
             </div>
             <div className={styles["lyric-container"]}>
-                <img className={styles["lyric-flag-blur"]} src={"/" + clue.language.code + ".png"}/>
+                <img className={styles["lyric-flag-blur"]} alt="" src={"/" + clue.language.code + ".png"}/>
                 {
                     solution && (
                         <div id={styles["solution-container"]}>

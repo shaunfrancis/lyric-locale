@@ -65,7 +65,7 @@ export default function QueryInput(
 
     return (
         <div id={styles["guess-input-container"]}>
-            <input ref={guessInputRef} type="text" id={styles["guess-input"]} placeholder="Guess the song..." onChange={e => search(e.target.value)} onFocus={() => { setInputIsFocused(true) }} onBlur={() => { setInputIsFocused(false) }} autoComplete="false" spellCheck="false"  />
+            <input ref={guessInputRef} type="text" id={styles["guess-input"]} title="Guess a song" placeholder="Guess the song..." onChange={e => search(e.target.value)} onFocus={() => { setInputIsFocused(true) }} onBlur={() => { setInputIsFocused(false) }} autoComplete="false" spellCheck="false"  />
             <div className={styles[inputIndicator]} id={styles["guess-input-indicator"]}></div>
         </div>
     )
