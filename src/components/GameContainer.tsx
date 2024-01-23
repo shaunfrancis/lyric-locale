@@ -15,6 +15,7 @@ import { Game } from '@/types/Game';
 import { EnglishLanguage } from '@/constants/Languages';
 import ConfettiCanvas from './ConfettiCanvas';
 import ShareContainer from './ShareContainer';
+import Countdown from './Countdown';
 
 export default function GameContainer( {game, clues} : {game : Game, clues : Clue[]} ){
 
@@ -175,6 +176,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
                 {playButton}
             </div>
 
+            { gameOver && <Countdown /> }
             <ConfettiCanvas didWin={didWin} />
         </>
     )

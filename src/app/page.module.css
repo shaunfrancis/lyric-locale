@@ -324,6 +324,18 @@
     pointer-events:none;
 }
 
+#countdown-container{
+    font-size:1.5em;
+    position:fixed;
+    z-index:2;
+    bottom:30px;
+    padding:20px 30px;
+    background:rgb(21, 21, 21);
+    border-radius:30px;
+    box-shadow:0 0 30px 10px rgb(40,40,40);
+    cursor:default;
+}
+
 @media screen and (max-width: 850px){
     .clue-container{
         flex-direction:column;
