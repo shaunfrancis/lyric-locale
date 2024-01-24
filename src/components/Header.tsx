@@ -9,7 +9,9 @@ export default function Header( {game, helpPopup} : {game : Game, helpPopup : Mu
     return(
         <header>
             <div id="tennessine-container">
-                <img src="/tennessine.svg" alt="Tennessine" style={{height:"21px"}}/>
+                <a href="https://tennessine.co.uk" tabIndex={0}>
+                    <img src="/tennessine.svg" alt="Tennessine" />
+                </a>
             </div>
             <div id="title-container">
                 <img src="/logo-icon.svg" alt="" style={{height:"45px"}}/>
@@ -19,7 +21,7 @@ export default function Header( {game, helpPopup} : {game : Game, helpPopup : Mu
             </div>
             <nav>
                 <ul>
-                    <li id="help-li" onClick={() => { openPopup(helpPopup) }}></li>
+                    <li id="help-li" role="button" onClick={() => { openPopup(helpPopup) }} onKeyDown={(e) => {if(e.key == "Enter") openPopup(helpPopup)}} tabIndex={0}></li>
                 </ul>
             </nav>
         </header>

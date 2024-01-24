@@ -266,6 +266,7 @@
     color:#fff;
 }
     #guess-button:active{ background: rgb(47,47,200) }
+    #guess-button:focus{ outline-color: #fff }
 
 #query-results{
     position:absolute;
@@ -284,7 +285,7 @@
     background:linear-gradient(90deg, rgba(40, 40, 40, 0) 0%, rgba(40, 40, 40, 0.95) 20%, rgba(40, 40, 40, 0.95) 80%, rgba(40, 40, 40, 0) 100%);
 }
 
-#query-results.visible{
+#query-results.visible, #query-results:has(.query-result:focus-visible){
     opacity:1;
     pointer-events:auto;
     transform:scale(1,1);

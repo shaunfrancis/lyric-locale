@@ -28,6 +28,10 @@ button{
     border:none;
 }
 
+button:focus-visible, a:focus-visible, li:focus-visible{
+    outline:5px solid rgb(50, 80, 150);
+}
+
 main{
     display:flex;
     flex-direction:column;
@@ -48,6 +52,10 @@ header{
     justify-content:space-between;
 }
     header > *{ flex:0 0 calc(100% / 3) }
+
+#tennessine-container a{ padding:10px 0} 
+#tennessine-container img{ height:21px }
+
 
 #title-container{
     display:flex;

@@ -29,11 +29,11 @@ export default function ShareContainer(
 
     return (
         <div id={styles["share-container"]}>
-            <button className={styles["share-button"]} onClick={copyShareText}>
+            <button className={styles["share-button"]} onClick={copyShareText} tabIndex={4}>
                 <img src="/copy.svg" alt="Copy"/>
                 <span ref={copySpan}>Copy</span>
             </button>
-            <button className={styles["share-button"]} onClick={() => { window.open(`https://twitter.com/intent/tweet?text=${"%23" + encodeURIComponent(shareText)}`, '_blank') }}>
+            <button className={styles["share-button"]} onClick={() => { window.open(`https://twitter.com/intent/tweet?text=${"%23" + encodeURIComponent(shareText)}`, '_blank') }} tabIndex={4}>
                 <img src="/x-logo.svg" alt="Tweet"/>
                 <span>Tweet</span>
             </button>

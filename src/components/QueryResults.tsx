@@ -15,7 +15,7 @@ export default function QueryResults(
                     results.length > 0 ?
                     results.map( (result : Song, index : number) => {
                         return (
-                            <div key={index} className={styles["query-result"]} onMouseDown={e => e.preventDefault()} onClick={() => selectSong(result)}>
+                            <div key={index} className={styles["query-result"]} onMouseDown={e => e.preventDefault()} onClick={() => selectSong(result)} onKeyDown={(e) => {if(e.key == "Enter") selectSong(result)}} tabIndex={2}>
                                 <img src={result.thumb} alt={result.title + " thumbnail"} />
                                 <span>{result.title}</span>
                             </div>

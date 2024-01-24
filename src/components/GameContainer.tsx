@@ -130,12 +130,12 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
 
     let playButton;
     if(!selectedSong) playButton = (
-            <button id={styles["skip-button"]} className={styles["play-button"] + (!firstGuess.current ? " " + styles["incorrect"] : "")} onClick={nextClue}>
+            <button id={styles["skip-button"]} className={styles["play-button"] + (!firstGuess.current ? " " + styles["incorrect"] : "")} onClick={nextClue} tabIndex={3}>
                 {(count >= 5) ? "Give Up" : "Skip"}
             </button>
         );
     else playButton = (
-            <button id={styles["guess-button"]} className={styles["play-button"]} onClick={() => { makeGuess(selectedSong) }}>
+            <button id={styles["guess-button"]} className={styles["play-button"]} onClick={() => { makeGuess(selectedSong) }} tabIndex={3}>
                 Guess
             </button>
         );
