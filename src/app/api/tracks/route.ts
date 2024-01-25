@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 
+import explicitText from '@/lib/explicitText';
 import Song from '@/types/Song';
 import { NextRequest } from 'next/server';
 
@@ -35,6 +36,7 @@ export async function GET(request: NextRequest) : Promise<Response> {
 
     const results : Song[] = [];
     product.results.forEach( result => {
+        if(explicitText(result.title)) return;
         results.push({
             id: result.id,
             title: clean(result.title),

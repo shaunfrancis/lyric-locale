@@ -35,3 +35,6 @@ google_credentials.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# explicit word list
+/src/constants/Profanity.ts
