@@ -5,7 +5,7 @@ import Song from '@/types/Song';
 import { Game } from '@/types/Game';
 
 export default function QueryInput( 
-    {guessInputRef, setResults, setInputIsFocused, inputIndicator, setInputIndicator, selectSong, game} : 
+    {guessInputRef, setResults, setInputIsFocused, inputIndicator, setInputIndicator, selectSong, game, gameOver} : 
     {
         guessInputRef :  MutableRefObject<HTMLInputElement | null>,
         setResults : Dispatch<SetStateAction<Array<Song> | null>>, 
@@ -13,7 +13,8 @@ export default function QueryInput(
         inputIndicator : GuessInputIndicatorClass, 
         setInputIndicator : Dispatch<SetStateAction<GuessInputIndicatorClass>>,
         selectSong : (song: Song | null) => void,
-        game: Game
+        game: Game,
+        gameOver : boolean
     } 
 ){
 
@@ -65,7 +66,7 @@ export default function QueryInput(
 
     return (
         <div id={styles["guess-input-container"]}>
-            <input ref={guessInputRef} type="text" id={styles["guess-input"]} title="Guess a song" placeholder="Guess the song..." onChange={e => search(e.target.value)} onFocus={() => { setInputIsFocused(true) }} onBlur={() => { setInputIsFocused(false) }} autoComplete="false" spellCheck="false" tabIndex={1} />
+            <input ref={guessInputRef} type="text" id={styles["guess-input"]} title="Guess a song" placeholder="Guess the song..." onChange={e => search(e.target.value)} onFocus={() => { setInputIsFocused(true) }} onBlur={() => { setInputIsFocused(false) }} autoComplete="false" spellCheck="false" tabIndex={1} disabled={gameOver} />
             <div className={styles[inputIndicator]} id={styles["guess-input-indicator"]}></div>
         </div>
     )

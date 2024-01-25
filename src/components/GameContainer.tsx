@@ -130,7 +130,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
 
     let playButton;
     if(!selectedSong) playButton = (
-            <button id={styles["skip-button"]} className={styles["play-button"] + (!firstGuess.current ? " " + styles["incorrect"] : "")} onClick={nextClue} tabIndex={3}>
+            <button id={styles["skip-button"]} className={styles["play-button"] + (!firstGuess.current ? " " + styles["incorrect"] : "")} onClick={nextClue} disabled={gameOver} tabIndex={3}>
                 {(count >= 5) ? "Give Up" : "Skip"}
             </button>
         );
@@ -170,7 +170,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             <div id={styles["play-container"]} className={gameOver ? styles["game-over"] : ""}>
                 <div id={styles["play-gradient"]}></div>
                 <div id={styles["guess-container"]}>
-                    <QueryInput guessInputRef={guessInputRef} setResults={setQueryResults} setInputIsFocused={setInputIsFocused} inputIndicator={inputIndicator} setInputIndicator={setInputIndicator} selectSong={selectSong} game={game}  />
+                    <QueryInput guessInputRef={guessInputRef} setResults={setQueryResults} setInputIsFocused={setInputIsFocused} inputIndicator={inputIndicator} setInputIndicator={setInputIndicator} selectSong={selectSong} game={game} gameOver={gameOver} />
                     <QueryResults results={queryResults} inputIsFocused={inputIsFocused} selectSong={selectSong} />
                 </div>
                 {playButton}

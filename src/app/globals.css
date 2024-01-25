@@ -65,6 +65,10 @@ header{
     cursor:default;
 }
 
+#title-container img{
+    height:45px;
+}
+
 #title{
     font-size:1.8em;
 }
@@ -159,6 +163,7 @@ nav li:active{
     right:30px;
     width:30px;
     height:30px;
+    border-radius:10px;
     cursor:pointer;
 }
 
