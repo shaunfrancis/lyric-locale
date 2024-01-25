@@ -25,7 +25,10 @@ export default function Countdown(){
             const now = new Date();
             const clock = ukTime(now.getHours(), now.getMinutes(), now.getSeconds());
 
-            const countdown = [mod(23 - clock[0], 24), mod(59 - clock[1], 60), mod(60 - clock[2], 60)];
+            const secondsRemaining = mod(60 - clock[2], 60);
+            const minutesRemaining = mod(60 - clock[1] - (secondsRemaining > 0 ? 1 : 0), 60);
+            const hoursRemaining = 24 - clock[0] - (minutesRemaining > 0 || secondsRemaining > 0 ? 1 : 0);
+            const countdown = [hoursRemaining, minutesRemaining, secondsRemaining];
 
             if(valueRef.current) valueRef.current!.innerHTML = countdown.map( v => v.toString().padStart(2,"0") ).join(":");
         }
