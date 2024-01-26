@@ -6,6 +6,14 @@ import { sql } from '@vercel/postgres';
 import { Client, Song as GeniusSong } from 'genius-lyrics';
 import { v2 as GoogleTranslate } from '@google-cloud/translate';
 import Language from '@/types/Language';
+import explicitText from '@/lib/explicitText';
+
+/* Fail codes
+    1: Discogs API
+    2: Genius API
+    3: Non-English lyrics
+    4: Explicit title or lyrics
+*/
 
 export async function GET(request: Request) : Promise<Response> {
 
@@ -31,6 +39,7 @@ export async function GET(request: Request) : Promise<Response> {
         //choose a song from table
         const { rows : chooseSong } = await sql`SELECT id, title FROM songs WHERE status = 0 ORDER BY RANDOM() LIMIT 1`;
         const song = chooseSong[0] as {id : number, title : string};
+        if( explicitText(song.title) ) return rejectSong(song, 4);
 
         //check that song exists on user search API (Discogs)
         const discogsCheckRequest = await fetch(process.env.TRACK_SEARCH_URL + "&type=master&format=single&per_page=5&q=" + song.title, {
@@ -85,6 +94,8 @@ export async function GET(request: Request) : Promise<Response> {
             else lines = 8;
         } while (lines < 8) ;
 
+        if( explicitText(lyrics) ) return rejectSong(song, 4);
+
 
         //translate song lyrics
 
@@ -106,10 +117,14 @@ export async function GET(request: Request) : Promise<Response> {
         };
         
         //create game
-        await sql`INSERT INTO games (song_id, solution_id, lyrics, thumb) VALUES (${song.id},${discogsSong.id},${lyrics},${discogsSong.thumb})`;
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowString = tomorrow.toISOString().split("T")[0];
+
+        await sql`INSERT INTO games (day, song_id, solution_id, lyrics, thumb) VALUES (${tomorrowString}, ${song.id},${discogsSong.id},${lyrics},${discogsSong.thumb})`;
         
-        const { rows: id_check } = await sql`SELECT MAX(id) as max FROM games`;
-        const game_id = id_check[0].max;
+        const { rows: id_check } = await sql`SELECT id FROM games WHERE day = ${tomorrowString}`;
+        const game_id = id_check[0].id;
         
         await sql`INSERT INTO clues (game_id, level, language, lyrics) VALUES
             (${game_id}, ${clues[0][0]}, ${clues[0][1]}, ${clues[0][2]}),

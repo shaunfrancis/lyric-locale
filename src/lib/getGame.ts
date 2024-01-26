@@ -4,6 +4,9 @@ import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function getGame(){
     noStore();
-    const { rows } = await sql`SELECT games.id, games.solution_id, songs.title, games.lyrics, games.thumb FROM games JOIN songs ON songs.id = games.song_id ORDER BY id DESC LIMIT 1`;
-    return rows[0] as Game;
+
+    const { rows } = await sql`SELECT games.id, games.solution_id, songs.title, games.lyrics, games.thumb FROM games JOIN songs ON songs.id = games.song_id WHERE day = ${(new Date()).toISOString().split("T")[0]} ORDER BY id DESC LIMIT 1`;
+
+    if(rows.length == 0) return {id: -1, solution_id: -1, title: "Missing Data", lyrics: "Missing Data", thumb: "/missing.png"} as Game;
+    else return rows[0] as Game;
 }

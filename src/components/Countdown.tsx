@@ -3,6 +3,7 @@ import styles from '../app/page.module.css';
 
 export default function Countdown(){
     const valueRef = useRef(null) as MutableRefObject<HTMLSpanElement | null>;
+    const preMidnight = useRef(true);
 
     const mod = (a : number, b : number) : number => { return ( (a % b) + b ) % b }
     const ukTime = (hour: number, minute: number, second: number) => {
@@ -21,6 +22,7 @@ export default function Countdown(){
     }
 
     useEffect(() => {
+        let countdownRefresher : NodeJS.Timeout | undefined;
         const updateCountdown = () => {
             const now = new Date();
             const clock = ukTime(now.getHours(), now.getMinutes(), now.getSeconds());
@@ -30,13 +32,19 @@ export default function Countdown(){
             const hoursRemaining = 24 - clock[0] - (minutesRemaining > 0 || secondsRemaining > 0 ? 1 : 0);
             const countdown = [hoursRemaining, minutesRemaining, secondsRemaining];
 
+            if(countdown[0] == 24 && countdown[1] == 0 && countdown[2] == 0){
+                preMidnight.current = false;
+                clearInterval(countdownRefresher);
+            }
+
             if(valueRef.current) valueRef.current!.innerHTML = countdown.map( v => v.toString().padStart(2,"0") ).join(":");
         }
         updateCountdown();
-        setInterval(updateCountdown, 500);
+        countdownRefresher = setInterval(updateCountdown, 500);
     }, []);
 
-    return (
+    return (preMidnight.current ? 
         <div id={styles["countdown-container"]}>Next LyricLocale in <span id={styles["countdown-value"]} ref={valueRef}>24:00:00</span></div>
+        : <div id={styles["countdown-container"]}>Refresh for a new LyricLocale</div>
     )
 }
