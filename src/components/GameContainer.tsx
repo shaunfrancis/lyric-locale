@@ -176,7 +176,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
                 {playButton}
             </div>
 
-            { gameOver && <Countdown /> }
+            { gameOver && <Countdown gameDay={game.day} /> }
             <ConfettiCanvas didWin={didWin} />
         </>
     )
