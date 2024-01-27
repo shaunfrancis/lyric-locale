@@ -32,7 +32,7 @@ export async function GET(request: Request) : Promise<Response> {
         const discogsSong = discogsCheck.results[0];
         if(fail) return rejectSong(song, 1);
 
-        return Response.json( { status : 200, title: song.title } );
+        return Response.json( { status : 200, id: song.id, title: song.title } );
 
     }
     catch(err){ return Response.json( {status : 500, error : err} ) }
