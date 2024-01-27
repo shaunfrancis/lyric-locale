@@ -4,13 +4,10 @@ import DiscogsSong from '@/types/Song';
 import { sql } from '@vercel/postgres';
 import explicitText from '@/lib/explicitText';
 import clean from '@/lib/clean';
+import rejectSong from '@/lib/rejectSong';
+import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) : Promise<Response> {
-
-    const rejectSong = async ( song : {id : number, title : string}, reason : number) => {
-        await sql`UPDATE songs SET status = ${reason} WHERE id = ${song.id}`;
-        return Response.json( {status : 400, error : reason, title: song.title } );
-    };
+export async function GET(request: Request) : Promise<NextResponse> {
 
     try{
         //choose a song from table
@@ -32,8 +29,8 @@ export async function GET(request: Request) : Promise<Response> {
         const discogsSong = discogsCheck.results[0];
         if(fail) return rejectSong(song, 1);
 
-        return Response.json( { status : 200, id: song.id, title: song.title } );
+        return NextResponse.json( { id: song.id, title: song.title }, {status: 200} );
 
     }
-    catch(err){ return Response.json( {status : 500, error : err} ) }
+    catch(err){ return NextResponse.json( {error : err}, {status: 500} ) }
 }
