@@ -27,7 +27,7 @@ export async function POST(request: Request) : Promise<NextResponse> {
             clues.push(clue);
 
         };
-        return NextResponse.json( { status : 200, clues: clues } );
+        return NextResponse.json( { clues: clues }, {status: 200} );
     }
-    catch(err){ return NextResponse.json( {status : 500, error : err} ) }
+    catch(err){ return NextResponse.json( {error : err}, {status: 500} ) }
 }
