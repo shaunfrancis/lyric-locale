@@ -1,17 +1,13 @@
 export const dynamic = "force-dynamic";
 
 import { sql } from '@vercel/postgres';
+import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) : Promise<Response> {
+export async function POST(request: Request) : Promise<NextResponse> {
 
-    const song = {id: -1, title: ""};
+    const { dbSong: song, discogsSong, lyrics, clues } = await request.json();
 
     try{
-
-        const clues = [[0,'en','lyrics'],[0,'en','lyrics'],[0,'en','lyrics'],[0,'en','lyrics'],[0,'en','lyrics'],[0,'en','lyrics']];
-        const discogsSong = {id: -1, thumb: "thumb"};
-        const lyrics = "enlyrics";
-
         //create game
         let tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
@@ -32,8 +28,8 @@ export async function GET(request: Request) : Promise<Response> {
         `;
 
         await sql`UPDATE songs SET status = 9 WHERE id = ${song.id}`;
-        return Response.json( { status : 200, title: song.title } );
+        return NextResponse.json( { title: song.title }, {status:200} );
 
     }
-    catch(err){ return Response.json( {status : 500, error : err} ) }
+    catch(err){ return NextResponse.json( {error : err}, {status: 500} ) }
 }

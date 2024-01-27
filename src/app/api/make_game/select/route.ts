@@ -29,7 +29,7 @@ export async function GET(request: Request) : Promise<NextResponse> {
         const discogsSong = discogsCheck.results[0];
         if(fail) return rejectSong(song, 1);
 
-        return NextResponse.json( { id: song.id, title: song.title }, {status: 200} );
+        return NextResponse.json( { dbSong: song, discogsSong: discogsSong }, {status: 200} );
 
     }
     catch(err){ return NextResponse.json( {error : err}, {status: 500} ) }

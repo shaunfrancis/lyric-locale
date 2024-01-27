@@ -1,18 +1,13 @@
 export const dynamic = "force-dynamic";
-
-import { sql } from '@vercel/postgres';
 import { Client, Song as GeniusSong } from 'genius-lyrics';
 import explicitText from '@/lib/explicitText';
 import clean from '@/lib/clean';
+import rejectSong from '@/lib/rejectSong';
+import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) : Promise<Response> {
+export async function POST(request: Request) : Promise<NextResponse> {
 
-    const song = {id: -1, title: ""};
-
-    const rejectSong = async ( song : {id : number, title : string}, reason : number) => {
-        await sql`UPDATE songs SET status = ${reason} WHERE id = ${song.id}`;
-        return Response.json( {status : 400, error : reason, title: song.title } );
-    };
+    const song = await request.json();
 
     try{
         //check that song exists on backend lyrics API (Genius)
@@ -55,7 +50,7 @@ export async function GET(request: Request) : Promise<Response> {
 
         if( explicitText(lyrics) ) return rejectSong(song, 4);
 
-        return Response.json( { status : 200, lyrics: lyrics } );
+        return NextResponse.json( { lyrics: lyrics }, {status: 200} );
     }
-    catch(err){ return Response.json( {status : 500, error : err} ) }
+    catch(err){ return NextResponse.json( {error : err}, {status: 500} ) }
 }

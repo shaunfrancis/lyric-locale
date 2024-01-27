@@ -1,18 +1,14 @@
 export const dynamic = "force-dynamic";
 
-import { sql } from '@vercel/postgres';
 import { v2 as GoogleTranslate } from '@google-cloud/translate';
 import Language from '@/types/Language';
 import { Languages } from '@/constants/Languages';
+import { NextResponse } from 'next/server';
+import rejectSong from '@/lib/rejectSong';
 
-export async function GET(request: Request) : Promise<Response> {
+export async function POST(request: Request) : Promise<NextResponse> {
     
-    const song = {id: -1, title: ""};
-
-    const rejectSong = async ( song : {id : number, title : string}, reason : number) => {
-        await sql`UPDATE songs SET status = ${reason} WHERE id = ${song.id}`;
-        return Response.json( {status : 400, error : reason, title: song.title } );
-    };
+    const song = await request.json();
 
     try{
         //const translate = new GoogleTranslate.Translate();
@@ -31,7 +27,7 @@ export async function GET(request: Request) : Promise<Response> {
             clues.push(clue);
 
         };
-        return Response.json( { status : 200, clues: clues } );
+        return NextResponse.json( { status : 200, clues: clues } );
     }
-    catch(err){ return Response.json( {status : 500, error : err} ) }
+    catch(err){ return NextResponse.json( {status : 500, error : err} ) }
 }
