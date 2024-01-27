@@ -3,10 +3,12 @@ export const dynamic = "force-dynamic";
 import { v2 as GoogleTranslate } from '@google-cloud/translate';
 import Language from '@/types/Language';
 import { Languages } from '@/constants/Languages';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import rejectSong from '@/lib/rejectSong';
+import authenticate from '@/lib/authenticate';
 
-export async function POST(request: Request) : Promise<NextResponse> {
+export async function POST(request: NextRequest) : Promise<NextResponse> {
+    if(!authenticate(request)) return NextResponse.json( {error : "UNAUTHORISED"}, {status: 401} );
     
     const song = await request.json();
 

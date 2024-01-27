@@ -6,6 +6,7 @@ import explicitText from '@/lib/explicitText';
 import clean from '@/lib/clean';
 import rejectSong from '@/lib/rejectSong';
 import { NextResponse } from 'next/server';
+import authenticate from '@/lib/authenticate';
 
 export async function GET(request: Request) : Promise<NextResponse> {
 

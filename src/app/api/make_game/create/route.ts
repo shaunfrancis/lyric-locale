@@ -1,9 +1,11 @@
 export const dynamic = "force-dynamic";
 
+import authenticate from '@/lib/authenticate';
 import { sql } from '@vercel/postgres';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: Request) : Promise<NextResponse> {
+export async function POST(request: NextRequest) : Promise<NextResponse> {
+    if(!authenticate(request)) return NextResponse.json( {error : "UNAUTHORISED"}, {status: 401} );
 
     const { dbSong: song, discogsSong, lyrics, clues } = await request.json();
 

@@ -3,9 +3,12 @@ import { Client, Song as GeniusSong } from 'genius-lyrics';
 import explicitText from '@/lib/explicitText';
 import clean from '@/lib/clean';
 import rejectSong from '@/lib/rejectSong';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import authenticate from '@/lib/authenticate';
 
-export async function POST(request: Request) : Promise<NextResponse> {
+export async function POST(request: NextRequest) : Promise<NextResponse> {
+
+    if(!authenticate(request)) return NextResponse.json( {error : "UNAUTHORISED"}, {status: 401} );
 
     const song = await request.json();
 
