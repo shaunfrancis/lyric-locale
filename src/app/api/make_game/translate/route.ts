@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) : Promise<NextResponse> {
         const slack = new SlackClient(process.env.SLACK_TOKEN);
         await slack.chat.postMessage({ channel: '#lyriclocale', text: 'Translation API called.' });
 
-        const translate = new GoogleTranslate.Translate();
+        const translate = new GoogleTranslate.Translate({key: process.env.GOOGLE_TOKEN});
         const langs : Language[] = Languages.filter(l => l.difficulty == 1).sort(() => Math.random() - Math.random()).slice(0, 1);
         langs.push(...Languages.filter(l => !l.difficulty).sort(() => Math.random() - Math.random()).slice(0, 5));
         
