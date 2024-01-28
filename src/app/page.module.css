@@ -1,12 +1,11 @@
 #status-container{
-    width:100vw;
+    width:calc(100vw - 20px);
     position:sticky;
     z-index:2;
     top:calc(50px + 45px);
     display:flex;
     justify-content:center;
     gap:10px 20px;
-    flex-wrap:wrap;
 }
 
 #progress-container, .share-button{
@@ -18,13 +17,13 @@
 
 #progress-container{
     flex:0 1 350px;
+    padding:0 20px;
     display:flex;
     align-items:center;
-    justify-content:center;
-    gap:20px;
-    margin:0 10px;
+    justify-content:space-around;
 }
     #progress-container.game-over{ flex-basis:400px }
+    
 
 .progress-square, #progress-result{
     flex:0 0 30px;
@@ -52,6 +51,7 @@
 #share-container{
     display:flex;
     gap:20px;
+    justify-content:center;
 }
 
 .share-button{
@@ -79,7 +79,9 @@
 #clues-container{
     width:100vw;
     max-width:975px;
+    padding-bottom:100px;
 }
+#clues-container.game-over{padding-bottom:0}
 
 .clue-container{
     display:flex;
@@ -345,12 +347,21 @@
     cursor:default;
 }
 
-@media screen and (max-width: 850px){
+@media screen and (max-width: 750px){
+    #status-container{
+        flex-wrap:wrap;
+    }
+
+    #share-container{
+        flex-basis:100%;
+    }
+
     .clue-container{
         flex-direction:column;
         align-items:center;
         gap:30px;
     }
+    #clues-container.game-over .clue-container{ scroll-margin-top: 250px}
 
     .language-container{
         flex-direction:row;

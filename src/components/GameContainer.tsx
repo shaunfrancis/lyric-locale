@@ -115,7 +115,6 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
 
         if(song.id != game.solution_id){
             firstGuess.current = false;
-            if(guessInputRef.current) guessInputRef.current.focus();
             nextClue();
         }
         else{
@@ -140,21 +139,14 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             </button>
         );
 
-        async function tempcreatenewgame(){
-            const x = await fetch("/api/make_game");
-            const y = await x.json();
-            console.log(y);
-        }
     return(
-        <>
-            <button onClick={tempcreatenewgame} style={{position:"absolute",top:"60px",left:"20px",display:"none"}}>CREATE NEW GAME</button>
-            
+        <>            
             <div id={styles["status-container"]}>
                 <ProgressContainer clues={clues} clueContainers={clueContainers} count={count} winningCount={winningCount} gameOver={gameOver} didWin={didWin} />
                 { gameOver && <ShareContainer id={game.id} count={winningCount} clues={clues} didWin={didWin} /> }
             </div>
 
-            <div id={styles["clues-container"]} style={{paddingBottom: gameOver ? "0px" : "100px"}}>
+            <div id={styles["clues-container"]} className={gameOver ? styles["game-over"] : ""}>
             {   
                 clues.map( (clue : Clue, index : number) => {
                     return (index <= count) && ( <ClueContainer key={index} clue={clue} containerRef={clueContainers[index]} /> )

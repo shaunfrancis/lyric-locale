@@ -30,7 +30,8 @@ export default function ClueContainer(
                     )
                 }
                 {   clue.lyrics.split("\n").map( (line, j) => {
-                        return(<div className={styles["lyric-line"]} key={j}>{line}</div>)
+                        if(line.trim() == "") return(<br key={j} />)
+                        else return(<div className={styles["lyric-line"]} key={j}>{line}</div>)
                     })
                 }
             </div>
