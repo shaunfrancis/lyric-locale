@@ -1,9 +1,9 @@
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import styles from '../app/page.module.css';
 
 export default function Countdown( { gameDay } : { gameDay : string } ){
     const valueRef = useRef(null) as MutableRefObject<HTMLSpanElement | null>;
-    const preMidnight = useRef(true);
+    const [preMidnight, setPreMidnight] = useState(true);
 
     const mod = (a : number, b : number) : number => { return ( (a % b) + b ) % b };
 
@@ -19,7 +19,7 @@ export default function Countdown( { gameDay } : { gameDay : string } ){
             const countdown = [hoursRemaining, minutesRemaining, secondsRemaining];
 
             if(gameDay != now.toISOString().split("T")[0]){
-                preMidnight.current = false;
+                setPreMidnight(false);
                 clearInterval(countdownRefresher);
             }
 
@@ -29,8 +29,8 @@ export default function Countdown( { gameDay } : { gameDay : string } ){
         countdownRefresher = setInterval(updateCountdown, 500);
     }, []);
 
-    return (preMidnight.current ? 
+    return (preMidnight ? 
         <div id={styles["countdown-container"]}>Next LyricLocale in <span id={styles["countdown-value"]} ref={valueRef}>24:00:00</span></div>
-        : <div id={styles["countdown-container"]}>Refresh for a new LyricLocale</div>
+        : <div id={styles["countdown-container"]}>Refresh for a new LyricLocale!</div>
     )
 }
