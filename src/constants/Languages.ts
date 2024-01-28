@@ -2,6 +2,15 @@ import Language from "@/types/Language";
 
 const Languages : Language[] = [
     {
+        code: "az",
+        flag: "🇦🇿",
+        enName: "Azerbaijani",
+        localName: "Azərbaycanca",
+        ratio: 1 / 2,
+        squareSrc: "az-sq",
+        difficulty: 1
+    },
+    {
         code: "cs",
         flag: "🇨🇿",
         enName: "Czech",
@@ -146,12 +155,38 @@ const Languages : Language[] = [
         squareSrc: "pt-sq"
     },
     {
+        code: "ro",
+        flag: "🇷🇴",
+        enName: "Romanian",
+        localName: "Română",
+        ratio: 2 / 3,
+        difficulty: 1
+    },
+    {
+        code: "sq",
+        flag: "🇦🇱",
+        enName: "Albanian",
+        localName: "Shqip",
+        ratio: 5 / 7,
+        squareSrc: "sq-sq",
+        difficulty: 1
+    },
+    {
         code: "sv",
         flag: "🇸🇪",
         enName: "Swedish",
         localName: "Svenska",
         ratio: 5 / 8,
         squareSrc: "sv-sq"
+    },
+    {
+        code: "tr",
+        flag: "🇹🇷",
+        enName: "Turkish",
+        localName: "Türkçe",
+        ratio: 2 / 3,
+        squareSrc: "tr-sq",
+        difficulty: 1
     }
 ];
 
