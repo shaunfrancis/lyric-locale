@@ -33,23 +33,27 @@ export async function POST(request: NextRequest) : Promise<NextResponse> {
 
         //download song lyrics
         let fullLyrics = await geniusSong.lyrics();
-        fullLyrics = fullLyrics.replace(/\[.*\]\n/g, "");
+        fullLyrics = fullLyrics.replace(/\[.*\]\n/g, ""); //remove [Verse/Chorus] labels
         
         const verses = fullLyrics.split("\n\n");
         
-        let lyrics = verses[0];
-        let lines = (lyrics.match(/\n/g) || []).length;
-        let count = 1;
-        do{
-            const verse = verses[count];
-            const length = (verse.match(/\n/g) || []).length;
-            if(lines + length <= 8 || lines == 0){
-                lyrics += "\n" + verse;
-                lines += length;
-                count++;
+        //want more than 4 lines, max of 10, empty lines not included
+        let lyrics = "", lines = 0, verseCount = 0;
+        while(lines <= 4){
+            const verse = verses[verseCount].split("\n");
+            
+            if(verseCount != 0) lyrics += "\n";
+            for(let line = 0; line < verse.length; line++){
+                if(lines >= 10) break;
+                if(verse[line].trim() == "") continue;
+
+                if(lines != 0) lyrics += "\n";
+                lyrics += verse[line];
+                lines++;
             }
-            else lines = 8;
-        } while (lines < 8) ;
+
+            verseCount++;
+        }
 
         if( explicitText(lyrics) ) return rejectSong(song, 4);
 
