@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google-cloud/translate": "^8.0.3",
+    "@next/third-parties": "^14.1.0",
     "@slack/web-api": "^7.0.1",
     "@vercel/postgres": "^0.5.1",
     "genius-lyrics": "^4.4.6",
