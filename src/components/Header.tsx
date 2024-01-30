@@ -1,7 +1,11 @@
 import { Game } from "@/types/Game";
 import { MutableRefObject } from "react";
 
-export default function Header( {game, helpPopup} : {game : Game, helpPopup : MutableRefObject<HTMLDivElement | null>} ){
+export default function Header( 
+    {game, helpPopup, settingsPopup} : 
+    {game : Game, helpPopup : MutableRefObject<HTMLDivElement | null>, settingsPopup : MutableRefObject<HTMLDivElement | null>} 
+){
+
     const togglePopup = (popupRef : MutableRefObject<HTMLDivElement | null>) => {
         if(popupRef.current) popupRef.current!.classList.toggle('visible');
     };
@@ -22,6 +26,7 @@ export default function Header( {game, helpPopup} : {game : Game, helpPopup : Mu
             <nav>
                 <ul>
                     <li id="help-li" role="button" onClick={() => { togglePopup(helpPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(helpPopup)}} tabIndex={0}></li>
+                    <li id="settings-li" role="button" onClick={() => { togglePopup(settingsPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(settingsPopup)}} tabIndex={0}></li>
                 </ul>
             </nav>
         </header>

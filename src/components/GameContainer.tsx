@@ -1,10 +1,8 @@
 "use client";
 
 import styles from '../app/page.module.css';
-
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import Clue from '@/types/Clue';
-
 import ClueContainer from './ClueContainer';
 import Song from '@/types/Song';
 import ProgressContainer from './ProgressContainer';
@@ -16,8 +14,13 @@ import { EnglishLanguage } from '@/constants/Languages';
 import ConfettiCanvas from './ConfettiCanvas';
 import ShareContainer from './ShareContainer';
 import Countdown from './Countdown';
+import Language from '@/types/Language';
+import StoredData from '@/types/StoredData';
 
-export default function GameContainer( {game, clues} : {game : Game, clues : Clue[]} ){
+export default function GameContainer( 
+    {game, clues, storage, hiddenLanguages} : 
+    {game : Game, clues : Clue[], storage: StoredData, hiddenLanguages: Language[]} 
+){
 
     const [count, setCount] = useState<number>(0);
     const [inputIndicator, setInputIndicator] = useState<GuessInputIndicatorClass>(GuessInputIndicatorClass.Static);
@@ -31,46 +34,34 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
     const firstGuess = useRef(true);
     const clueContainers = Array.from(Array(7), () => useRef(null) as MutableRefObject<HTMLDivElement | null>);
 
-    let storedStats = useRef([]) as MutableRefObject<{id : number, count : number, won : number}[]>;
     useEffect(() => {
-        if(!localStorage.getItem("game-stats")) localStorage.setItem("game-stats", "[]");
-        else{
-            const stats = JSON.parse(localStorage.getItem("game-stats")!);
-            if(!stats || !Array.isArray(stats)) return localStorage.setItem("game-stats", "[]");
+        const todaysGame = storage.stats.find( stat => stat.id == game.id );
+        if(todaysGame){
+            let todaysCount = isNaN(todaysGame.count) ? 0 : todaysGame.count;
+            todaysCount = Math.max(0, Math.min(6, todaysCount));
 
-            stats.forEach( stat => {
-                const isValidType = ["id","count","won"].every( k => k in stat && typeof stat[k] == "number" );
-                if(typeof stat === "object" && isValidType) storedStats.current.push(stat);
-            });
-
-            const todaysGame = stats.find( stat => stat.id == game.id );
-            if(todaysGame){
-                let todaysCount = isNaN(parseInt(todaysGame.count)) ? 0 : parseInt(todaysGame.count);
-                todaysCount = Math.max(0, Math.min(6, todaysCount));
-
-                if("won" in todaysGame && todaysGame.won == 1){
-                    setWinningCount(todaysCount);
-                    setDidWin(true);
-                    setGameOver(true);
-                    setCount(6);
-                }
-                else{
-                    if(todaysCount == 6) setGameOver(true);
-                    setCount(todaysCount);
-                }
+            if("won" in todaysGame && todaysGame.won == 1){
+                setWinningCount(todaysCount);
+                setDidWin(true);
+                setGameOver(true);
+                setCount(6);
+            }
+            else{
+                if(todaysCount == 6) setGameOver(true);
+                setCount(todaysCount);
             }
         }
     }, []);
 
     const updateStoredStats = (newCount : number, newDidWin : boolean = false) => {
-        const todaysGame = storedStats.current.find( stat => stat.id == game.id );
+        const todaysGame = storage.stats.find( stat => stat.id == game.id );
         if(todaysGame){
             todaysGame.count = newCount;
             todaysGame.won = newDidWin ? 1 : 0;
         }
-        else storedStats.current.push({ id: game.id, count: newCount, won: newDidWin ? 1 : 0});
+        else storage.stats.push({ id: game.id, count: newCount, won: newDidWin ? 1 : 0});
 
-        localStorage.setItem("game-stats", JSON.stringify(storedStats.current));
+        localStorage.setItem("game-stats", JSON.stringify(storage.stats));
     }
 
     useEffect(() => {
@@ -149,7 +140,7 @@ export default function GameContainer( {game, clues} : {game : Game, clues : Clu
             <div id={styles["clues-container"]} className={gameOver ? styles["game-over"] : ""}>
             {   
                 clues.map( (clue : Clue, index : number) => {
-                    return (index <= count) && ( <ClueContainer key={index} clue={clue} containerRef={clueContainers[index]} /> )
+                    return (index <= count) && ( <ClueContainer key={index} clue={clue} hide={hiddenLanguages} containerRef={clueContainers[index]} /> )
                 })
             }
             {
