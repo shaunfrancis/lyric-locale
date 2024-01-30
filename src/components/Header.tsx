@@ -1,17 +1,31 @@
 import { Game } from "@/types/Game";
-import { MutableRefObject } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 
 export default function Header( 
     {game, helpPopup, settingsPopup} : 
     {game : Game, helpPopup : MutableRefObject<HTMLDivElement | null>, settingsPopup : MutableRefObject<HTMLDivElement | null>} 
 ){
 
+    const headerRef = useRef(null) as MutableRefObject<HTMLHeadElement | null>;
+    useEffect( () => {
+        let currentScrollPosition = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const fullHeight = document.body.scrollHeight - window.innerHeight;
+
+            if(!headerRef.current) return;
+            if(window.scrollY > currentScrollPosition) document.body.classList.add('header-hidden');
+            else if(window.scrollY < currentScrollPosition) document.body.classList.remove('header-hidden');
+
+            currentScrollPosition = Math.max(0, Math.min(window.scrollY, fullHeight));
+        });
+    }, []);
+
     const togglePopup = (popupRef : MutableRefObject<HTMLDivElement | null>) => {
         if(popupRef.current) popupRef.current!.classList.toggle('visible');
     };
 
     return(
-        <header>
+        <header ref={headerRef}>
             <div id="tennessine-container">
                 <a href="https://tennessine.co.uk" tabIndex={0}>
                     <img src="/tennessine.svg" alt="Tennessine" />

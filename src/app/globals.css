@@ -53,6 +53,8 @@ header{
     display:flex;
     align-items:center;
     justify-content:space-between;
+    top:0;
+    transition: top 200ms;
 }
 
 #tennessine-container, nav{ flex: 0 0 100px }
@@ -199,7 +201,7 @@ nav li:active{
 
 @media screen and (max-width: 750px){
     html{ font-size: 9pt }
-
+    
     #title-container{ gap: 10px }
 
     .popup-content{ padding:30px }
@@ -217,5 +219,23 @@ nav li:active{
 }
 
 @media screen and (max-width: 500px){
-    #title-name{ display:none }
+    header{ 
+        flex-wrap: wrap;
+        height:110px;
+    }
+    body.header-hidden header{ top:-40px }
+
+    #tennessine-container{ order: 1; transition: opacity 200ms }
+    nav{ order: 2; transition: opacity 200ms }
+
+    body.header-hidden #tennessine-container, body.header-hidden nav{
+        opacity:0;
+        pointer-events:none;
+    }
+
+    #title-container{
+        order: 3;
+        flex-basis:100%;
+        margin-top:-20px;
+    }
 }

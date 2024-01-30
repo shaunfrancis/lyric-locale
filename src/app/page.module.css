@@ -2,7 +2,7 @@
     width:calc(100vw - 20px);
     position:sticky;
     z-index:2;
-    top:calc(50px + 45px);
+    top:95px;
     display:flex;
     justify-content:center;
     gap:10px 20px;
@@ -351,6 +351,7 @@
 @media screen and (max-width: 750px){
     #status-container{
         flex-wrap:wrap;
+        transition:top 200ms;
     }
 
     #share-container{
@@ -407,4 +408,11 @@
         width:70px;
     }
 
+}
+
+@media screen and (max-width:500px){
+    #status-container{ top: 80px }
+    body:not(:global(.header-hidden)) #status-container{ top: 130px }
+
+    #play-container, #countdown-container{ bottom:15px }
 }
