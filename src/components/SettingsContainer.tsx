@@ -16,15 +16,18 @@ export default function SettingsContainer(
 
     return (
         <Popup popupRef={settingsPopup}>
-            <h1>Settings</h1>
+            <h1>
+                <img src="/settings.svg" alt="" style={{height:"35px"}}/>
+                <span>Settings</span>
+            </h1>
             <h2>Hide Languages</h2>
             <p>If you speak other languages and don't want to spoil the game, you can choose to hide them. You can unhide them at any time while playing.</p>
             <div id="language-selector-container">
             {
-                Languages.sort((a,b) => a.enName.localeCompare(b.enName)).map( lang => {
+                Languages.sort((a,b) => a.enName.localeCompare(b.enName)).map( (lang, index) => {
                     const isSelected = hiddenLanguages.find(l => l.code == lang.code);
                     return(
-                        <button className={"language-selector" + (isSelected ? " selected" : "")} onClick={() => { hiddenLanguagesDispatch({type:"toggle", value:lang.code})}}>
+                        <button key={index} className={"language-selector" + (isSelected ? " selected" : "")} onClick={() => { hiddenLanguagesDispatch({type:"toggle", value:lang.code})}}>
                             <img src={"/" + ("squareSrc" in lang ? lang.squareSrc : lang.code) + ".png"} alt="" />
                             <span>{lang.enName}</span>    
                         </button>
