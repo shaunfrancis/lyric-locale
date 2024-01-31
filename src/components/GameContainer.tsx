@@ -16,6 +16,7 @@ import ShareContainer from './ShareContainer';
 import Countdown from './Countdown';
 import Language from '@/types/Language';
 import StoredData from '@/types/StoredData';
+import uploadScore from '@/lib/uploadScore';
 
 export default function GameContainer( 
     {game, clues, storage, hiddenLanguages} : 
@@ -89,6 +90,7 @@ export default function GameContainer(
     const nextClue = () : void => {
         updateStoredStats(count + 1);
         if(count == 5){
+            uploadScore(game.id, -1);
             setGameOver(true);
             setCount(6);
             if(guessInputRef.current) guessInputRef.current.blur();
@@ -109,6 +111,7 @@ export default function GameContainer(
             nextClue();
         }
         else{
+            uploadScore(game.id, count);
             updateStoredStats(count, true);
             setWinningCount(count);
             setDidWin(true);
