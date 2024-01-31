@@ -2,8 +2,8 @@ import { Game } from "@/types/Game";
 import { MutableRefObject, useEffect, useRef } from "react";
 
 export default function Header( 
-    {game, helpPopup, settingsPopup} : 
-    {game : Game, helpPopup : MutableRefObject<HTMLDivElement | null>, settingsPopup : MutableRefObject<HTMLDivElement | null>} 
+    {game, helpPopup, settingsPopup, statsPopup, streak} : 
+    {game : Game, helpPopup : MutableRefObject<HTMLDivElement | null>, settingsPopup : MutableRefObject<HTMLDivElement | null>, statsPopup : MutableRefObject<HTMLDivElement | null>, streak: number} 
 ){
 
     const headerRef = useRef(null) as MutableRefObject<HTMLHeadElement | null>;
@@ -39,6 +39,7 @@ export default function Header(
             </div>
             <nav>
                 <ul>
+                    <li id="stats-li" role="button" onClick={() => { togglePopup(statsPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(statsPopup)}} tabIndex={0}>{streak.toString()}</li>
                     <li id="help-li" role="button" onClick={() => { togglePopup(helpPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(helpPopup)}} tabIndex={0}></li>
                     <li id="settings-li" role="button" onClick={() => { togglePopup(settingsPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(settingsPopup)}} tabIndex={0}></li>
                 </ul>

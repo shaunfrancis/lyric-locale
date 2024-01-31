@@ -1,7 +1,7 @@
 "use client";
 
 import styles from '../app/page.module.css';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from 'react';
 import Clue from '@/types/Clue';
 import ClueContainer from './ClueContainer';
 import Song from '@/types/Song';
@@ -19,8 +19,8 @@ import StoredData from '@/types/StoredData';
 import uploadScore from '@/lib/uploadScore';
 
 export default function GameContainer( 
-    {game, clues, storage, hiddenLanguages} : 
-    {game : Game, clues : Clue[], storage: StoredData, hiddenLanguages: Language[]} 
+    {game, clues, storage, hiddenLanguages, updateStreak} : 
+    {game : Game, clues : Clue[], storage: StoredData, hiddenLanguages: Language[], updateStreak: Dispatch<SetStateAction<number>>} 
 ){
 
     const [count, setCount] = useState<number>(0);
@@ -90,6 +90,7 @@ export default function GameContainer(
     const nextClue = () : void => {
         updateStoredStats(count + 1);
         if(count == 5){
+            updateStreak(0);
             uploadScore(game.id, -1);
             setGameOver(true);
             setCount(6);
@@ -111,6 +112,7 @@ export default function GameContainer(
             nextClue();
         }
         else{
+            updateStreak(streak => streak + 1);
             uploadScore(game.id, count);
             updateStoredStats(count, true);
             setWinningCount(count);

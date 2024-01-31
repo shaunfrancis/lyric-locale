@@ -103,6 +103,14 @@ nav li:active{
     background-color:rgb(0,0,0);
 }
 
+    #stats-li{ 
+        background-image:url(/streak.svg);
+        color:rgb(21,21,21);
+        font-size:0.9em;
+        letter-spacing:-1px;
+        text-align:center;
+        line-height:50px;
+    }
     #help-li{ background-image:url(/help.svg) }
     #settings-li{ background-image:url(/settings.svg) }
 
@@ -216,6 +224,8 @@ nav li:active{
         height:35px;
         background-size:20px;
     }
+
+    #stats-li{ line-height:45px }
 }
 
 @media screen and (max-width: 500px){

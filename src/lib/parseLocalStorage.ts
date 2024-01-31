@@ -23,6 +23,7 @@ export default function parseLocalStorage() : StoredData{
         const isValidType = ["id","count","won"].every( k => k in stat && typeof stat[k] == "number" );
         if(typeof stat === "object" && isValidType) storage.stats.push(stat as Stat);
     });
+    storage.stats = storage.stats.sort( (a,b) => b.id - a.id );
 
     const settings = JSON.parse(localStorage.getItem("settings")!);
     if("hide" in settings && Array.isArray(settings.hide)) settings.hide.forEach( (code : any) => {
