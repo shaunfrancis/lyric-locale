@@ -182,6 +182,18 @@ nav li:active{
     cursor:pointer;
 }
 
+.two-column{
+    width:100%;
+    display:flex;
+}
+
+.two-column .column{
+    flex:0 0 50%;
+    text-align:center;
+}
+
+.streak-score{ font-size: 5em }
+
 #language-selector-container{
     display:flex;
     flex-wrap:wrap;
