@@ -7,7 +7,14 @@ const roboto = Roboto({ weight: ["300", "500", "900"], subsets: ['latin'], varia
 
 export const metadata: Metadata = {
   title: 'LyricLocale - Daily song game',
-  description: 'Can you guess the song from its translated lyrics? There\'s a new game every day - good luck!'
+  description: 'Can you guess the song from its translated lyrics? There\'s a new game every day - good luck!',
+  twitter: {
+    card: 'summary_large_image',
+    title: 'LyricLocale - Daily song game',
+    description: 'Can you guess the song from its translated lyrics? There\'s a new game every day - good luck!',
+    site: '@TennessineWeb',
+    images: ['https://lyriclocale.tennessine.co.uk/summary-large-image.png']
+  }
 }
 
 export default function RootLayout({
