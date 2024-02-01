@@ -52,6 +52,14 @@ const Languages : Language[] = [
         squareSrc: "es-sq"
     },
     {
+        code: "et",
+        flag: "🇪🇪",
+        enName: "Estonian",
+        localName: "Eesti",
+        ratio: 7 / 11,
+        difficulty: 1
+    },
+    {
         code: "fi",
         flag: "🇫🇮",
         enName: "Finnish",
@@ -115,6 +123,22 @@ const Languages : Language[] = [
         ratio: 3 / 5
     },
     {
+        code: "lt",
+        flag: "🇱🇹",
+        enName: "Lithuanian",
+        localName: "Lietuvių",
+        ratio: 3 / 5,
+        difficulty: 1
+    },
+    {
+        code: "lv",
+        flag: "🇱🇻",
+        enName: "Latvian",
+        localName: "Latviešu",
+        ratio: 1 / 2,
+        difficulty: 1
+    },
+    {
         code: "mt",
         flag: "🇲🇹",
         enName: "Maltese",
@@ -160,6 +184,15 @@ const Languages : Language[] = [
         enName: "Romanian",
         localName: "Română",
         ratio: 2 / 3,
+        difficulty: 1
+    },
+    {
+        code: "sk",
+        flag: "🇸🇰",
+        enName: "Slovak",
+        localName: "Slovenčina",
+        ratio: 2 / 3,
+        squareSrc: "sk-sq",
         difficulty: 1
     },
     {
