@@ -1,8 +1,5 @@
 import { Dispatch, MutableRefObject, useEffect, useRef } from "react";
 import Popup from "./Popup";
-import Language from "@/types/Language";
-import { Languages } from "@/constants/Languages";
-import StoredData from "@/types/StoredData";
 
 export default function StatsContainer(
     {statsPopup, streak, bestStreak} : 

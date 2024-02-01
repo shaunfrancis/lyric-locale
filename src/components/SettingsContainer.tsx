@@ -9,9 +9,13 @@ export default function SettingsContainer(
     {settingsPopup : MutableRefObject<HTMLDivElement | null>, storage: StoredData, hiddenLanguages: Language[], hiddenLanguagesDispatch: Dispatch<{type: string, value: string}>}
 ){
     
+    let init = useRef(true);
     useEffect( () => {
-        storage.settings.hide = hiddenLanguages.map(l => l.code);
-        localStorage.setItem("settings", JSON.stringify(storage.settings));
+        if(init.current){ //do not run on first render, localStorage was not defined
+            init.current = false;
+            return;
+        }
+        localStorage.setItem( "settings", JSON.stringify({...storage.settings, hide: hiddenLanguages.map(l => l.code)}) );
     }, [hiddenLanguages]);
 
     return (

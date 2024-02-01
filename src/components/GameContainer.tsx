@@ -52,7 +52,7 @@ export default function GameContainer(
                 setCount(todaysCount);
             }
         }
-    }, []);
+    }, [storage]);
 
     const updateStoredStats = (newCount : number, newDidWin : boolean = false) => {
         const todaysGame = storage.stats.find( stat => stat.id == game.id );

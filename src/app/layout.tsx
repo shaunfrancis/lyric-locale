@@ -9,6 +9,7 @@ const desc = 'Can you guess the song from its translated lyrics? There\'s a new 
 export const metadata: Metadata = {
   title: 'LyricLocale - Daily song game',
   description: desc,
+  metadataBase: new URL('https://lyriclocale.tennessine.co.uk'),
   twitter: {
     card: 'summary_large_image',
     title: 'LyricLocale - Daily song game',

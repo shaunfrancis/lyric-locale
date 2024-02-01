@@ -39,7 +39,7 @@ export default function Header(
             </div>
             <nav>
                 <ul>
-                    <li id="stats-li" role="button" onClick={() => { togglePopup(statsPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(statsPopup)}} tabIndex={0}>{streak.toString()}</li>
+                    <li id="stats-li" role="button" onClick={() => { togglePopup(statsPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(statsPopup)}} tabIndex={0}>{streak < 0 ? "" : streak}</li>
                     <li id="help-li" role="button" onClick={() => { togglePopup(helpPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(helpPopup)}} tabIndex={0}></li>
                     <li id="settings-li" role="button" onClick={() => { togglePopup(settingsPopup) }} onKeyDown={(e) => {if(e.key == "Enter") togglePopup(settingsPopup)}} tabIndex={0}></li>
                 </ul>
