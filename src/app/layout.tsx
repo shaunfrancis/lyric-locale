@@ -5,14 +5,21 @@ import './globals.css';
 import { Roboto } from 'next/font/google';
 const roboto = Roboto({ weight: ["300", "500", "900"], subsets: ['latin'], variable: '--roboto' });
 
+const desc = 'Can you guess the song from its translated lyrics? There\'s a new game every day - good luck!';
 export const metadata: Metadata = {
   title: 'LyricLocale - Daily song game',
-  description: 'Can you guess the song from its translated lyrics? There\'s a new game every day - good luck!',
+  description: desc,
   twitter: {
     card: 'summary_large_image',
     title: 'LyricLocale - Daily song game',
-    description: 'Can you guess the song from its translated lyrics? There\'s a new game every day - good luck!',
+    description: desc,
     site: '@TennessineWeb',
+    images: ['https://lyriclocale.tennessine.co.uk/summary-large-image.png']
+  },
+  openGraph: {
+    url: 'https://lyriclocale.tennessine.co.uk',
+    title: 'LyricLocale - Daily song game',
+    description: desc,
     images: ['https://lyriclocale.tennessine.co.uk/summary-large-image.png']
   }
 }
