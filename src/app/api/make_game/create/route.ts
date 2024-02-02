@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) : Promise<NextResponse> {
     if(!authenticate(request)) return NextResponse.json( {error : "UNAUTHORISED"}, {status: 401} );
 
-    const { dbSong: song, discogsSong, lyrics, clues } = await request.json();
+    const { song, lyrics, clues } = await request.json();
 
     try{
         //create game
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) : Promise<NextResponse> {
         tomorrow.setDate(tomorrow.getDate() + 1);
         const tomorrowString = tomorrow.toISOString().split("T")[0];
 
-        await sql`INSERT INTO games (day, song_id, solution_id, lyrics, thumb) VALUES (${tomorrowString}, ${song.id},${discogsSong.id},${lyrics},${discogsSong.thumb})`;
+        await sql`INSERT INTO games (day, song_id, lyrics, thumb) VALUES (${tomorrowString}, ${song.id}, ${lyrics}, ${song.thumb})`;
         
         const { rows: id_check } = await sql`SELECT id FROM games WHERE day = ${tomorrowString}`;
         const game_id = id_check[0].id;

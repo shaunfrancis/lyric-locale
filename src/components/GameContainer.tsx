@@ -72,7 +72,7 @@ export default function GameContainer(
     
 
     const solutionClue : Clue = { level: 7, lyrics: game.lyrics, language: EnglishLanguage }
-    const solutionSong : Song = { id: game.solution_id, title: game.title, thumb: game.thumb }
+    const solutionSong : Song = { id: game.song_id, title: game.title, thumb: game.thumb }
 
     const selectSong = (song : Song | null) => {
         setSelectedSong(song);
@@ -107,7 +107,7 @@ export default function GameContainer(
             guessInputRef.current.value = "";
         }
 
-        if(song.id != game.solution_id){
+        if(song.id != game.song_id){
             firstGuess.current = false;
             nextClue();
         }

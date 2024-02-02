@@ -2,7 +2,6 @@ import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
 /* Fail reason codes
-    1: Discogs API
     2: Genius API
     3: Non-English lyrics
     4: Explicit title or lyrics

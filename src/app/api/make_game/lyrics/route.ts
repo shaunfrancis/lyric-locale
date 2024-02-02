@@ -18,15 +18,19 @@ export async function POST(request: NextRequest) : Promise<NextResponse> {
         const geniusCheck = await GeniusClient.songs.search(song.title);
         
         const compatibleTitles = geniusCheck.map( s => {
-            const fragments = clean(s.fullTitle).split(" by ");
+            const fragments = clean(s.fullTitle).replace(/\./g, '').replace(/'/g,'').split(" by ");
             let title;
             if(fragments.length != 2) title = "";
-            else title = fragments[1] + " - " + fragments[0];
+            else{
+                title = fragments[1].replace(/ \(ft .*\)/g, "") + " - " + fragments[0];
+            }
 
             return {song: s, compatibleTitle: title.replace(/  +/g, " ")}
         });
 
-        const compatibleTitleResult = compatibleTitles.find( s => s.compatibleTitle == song.title.toLowerCase() );
+        const compatibleTitleResult = compatibleTitles.find( s => s.compatibleTitle == song.title.replace(/\./g, '').replace(/'/g,'').toLowerCase() );
+        
+        
         if(!compatibleTitleResult) return rejectSong(song, 2);
 
         const geniusSong = compatibleTitleResult.song;
