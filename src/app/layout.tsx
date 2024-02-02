@@ -22,6 +22,10 @@ export const metadata: Metadata = {
     title: 'LyricLocale - Daily song game',
     description: desc,
     images: ['https://lyriclocale.tennessine.co.uk/summary-large-image.png']
+  },
+  appleWebApp: {
+    title: 'LyricLocale',
+    statusBarStyle: 'black'
   }
 }
 

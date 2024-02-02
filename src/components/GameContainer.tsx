@@ -158,7 +158,7 @@ export default function GameContainer(
             <div id={styles["play-container"]} className={gameOver ? styles["game-over"] : ""}>
                 <div id={styles["play-gradient"]}></div>
                 <div id={styles["guess-container"]}>
-                    <QueryInput guessInputRef={guessInputRef} setResults={setQueryResults} setInputIsFocused={setInputIsFocused} inputIndicator={inputIndicator} setInputIndicator={setInputIndicator} selectSong={selectSong} game={game} gameOver={gameOver} />
+                    <QueryInput guessInputRef={guessInputRef} setResults={setQueryResults} setInputIsFocused={setInputIsFocused} inputIndicator={inputIndicator} setInputIndicator={setInputIndicator} selectSong={selectSong} selectedSong={selectedSong} game={game} gameOver={gameOver} />
                     <QueryResults results={queryResults} inputIsFocused={inputIsFocused} selectSong={selectSong} />
                 </div>
                 {playButton}
