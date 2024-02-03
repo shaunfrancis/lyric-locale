@@ -8,6 +8,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import rejectSong from '@/lib/rejectSong';
 import authenticate from '@/lib/authenticate';
 
+const shuffle = <T>(arr : Array<T>) : Array<T> => {
+    return arr.map( value => { return { value: value, magnitude: Math.random() } } )
+        .sort( (a,b) => { return b.magnitude - a.magnitude } )
+        .map( data => data.value )
+}
+
 let prevFirstClueCode : string; //avoid first clue being same language as yesterday
 export async function POST(request: NextRequest) : Promise<NextResponse> {
     if(!authenticate(request)) return NextResponse.json( {error : "UNAUTHORISED"}, {status: 401} );
@@ -19,8 +25,8 @@ export async function POST(request: NextRequest) : Promise<NextResponse> {
         await slack.chat.postMessage({ channel: '#lyriclocale', text: 'Translation API called.' });
 
         const translate = new GoogleTranslate.Translate({key: process.env.GOOGLE_TOKEN});
-        const langs : Language[] = Languages.filter(l => l.difficulty == 1 && l.code != prevFirstClueCode).sort(() => Math.random()).slice(0,1);
-        langs.push(...Languages.filter(l => !l.difficulty).sort(() => Math.random()).slice(0,5));
+        const langs : Language[] = shuffle(Languages.filter(l => l.difficulty == 1 && l.code != prevFirstClueCode)).slice(0,1);
+        langs.push(...shuffle(Languages.filter(l => !l.difficulty)).slice(0,5));
 
         prevFirstClueCode = langs[0].code;
         
