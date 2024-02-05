@@ -47,7 +47,8 @@ export default function QueryInput(
             const res = await fetch("/api/tracks?query=" + query);
             const json = await res.json() as Song[];
 
-            if(json.find( s => s.id == game.song_id) ){ //prevent songs with identical names (i.e. probably covers) if solution is present
+            //if(json.find( s => s.id == game.song_id) ){ //prevent songs with identical names (i.e. probably covers) if solution is present
+            //prevent songs with identical names regardless
                 const songs : Song[] = [];
                 json.forEach( returnedData => {
                     const s : Song = {id: returnedData.id, title: returnedData.title, thumb: returnedData.thumb};
@@ -58,8 +59,8 @@ export default function QueryInput(
                     }
                 });
                 setResults(songs);
-            }
-            else setResults(json);
+            //}
+            //else setResults(json);
             
             setInputIndicator(GuessInputIndicatorClass.Static);
 
