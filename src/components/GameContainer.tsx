@@ -31,9 +31,11 @@ export default function GameContainer(
     const [gameOver, setGameOver] = useState<boolean>(false);
     const [didWin, setDidWin] = useState<boolean>(false);
     const [winningCount, setWinningCount] = useState<number>(-1);
+
     const guessInputRef = useRef(null) as MutableRefObject<HTMLInputElement | null>;
     const firstGuess = useRef(true);
     const clueContainers = Array.from(Array(7), () => useRef(null) as MutableRefObject<HTMLDivElement | null>);
+    const startTime = useRef(Date.now());
 
     useEffect(() => {
         const todaysGame = storage.stats.find( stat => stat.id == game.id );
@@ -91,7 +93,7 @@ export default function GameContainer(
         updateStoredStats(count + 1);
         if(count == 5){
             updateStreak(0);
-            uploadScore(game.id, -1);
+            uploadScore(game.id, startTime.current, -1);
             setGameOver(true);
             setCount(6);
             if(guessInputRef.current) guessInputRef.current.blur();
@@ -103,9 +105,7 @@ export default function GameContainer(
         selectSong(null);
         setQueryResults(null);
 
-        if(guessInputRef.current){
-            guessInputRef.current.value = "";
-        }
+        if(guessInputRef.current) guessInputRef.current.value = "";
 
         if(song.id != game.song_id){
             firstGuess.current = false;
@@ -113,7 +113,7 @@ export default function GameContainer(
         }
         else{
             updateStreak(streak => streak + 1);
-            uploadScore(game.id, count);
+            uploadScore(game.id, startTime.current, count);
             updateStoredStats(count, true);
             setWinningCount(count);
             setDidWin(true);

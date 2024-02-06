@@ -5,13 +5,13 @@ import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) : Promise<Response> {
 
-    const { id, score } = await request.json();
+    const { id, elapsed, score } = await request.json();
     if(!id || (!score && score !== 0) || typeof id !== "number" || typeof score !== "number" || score < -1 || score > 5){
         return Response.json({error: "MISSING PARAMS"}, {status: 400});
     }
 
     try{
-        await sql`INSERT INTO scores (game_id, score) VALUES (${id}, ${score})`;
+        await sql`INSERT INTO scores (game_id, score, elapsed) VALUES (${id}, ${score}, ${elapsed})`;
         return Response.json( {}, {status: 200} );
     }
     catch(error){
