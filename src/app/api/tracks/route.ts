@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) : Promise<Response> {
     query = query.replace(/ /g, '+');
 
     let { rows : dbResults } = await sql`SELECT id, title, thumb, SIMILARITY(title, ${query}) as likeness FROM songs WHERE status IN (0,9) ORDER BY likeness DESC LIMIT 5`;
-    dbResults = dbResults.filter( result => result.likeness > 0.33 );
+    dbResults = dbResults.filter( result => result.likeness > 0.3 );
 
     let discogsResults : { results : Song[] }
     if(ratelimit_remaining <= 5) discogsResults = {results: []};
