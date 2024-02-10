@@ -1,12 +1,19 @@
 import { Game } from '@/types/Game';
-import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function getGame(){
     noStore();
 
-    const { rows } = await sql`SELECT games.id, games.day, games.song_id, songs.title, games.lyrics, games.thumb FROM games JOIN songs ON songs.id = games.song_id WHERE games.day = ${(new Date()).toISOString().split("T")[0]} ORDER BY games.id DESC LIMIT 1`;
+    const failedGame : Game = {id: -1, day: (new Date()).toISOString().split("T")[0], song_id: -1, title: "Missing Data", lyrics: "Missing Data", thumb: "/missing.png"};
 
-    if(rows.length == 0) return {id: -1, song_id: -1, title: "Missing Data", lyrics: "Missing Data", thumb: "/missing.png"} as Game;
-    else return rows[0] as Game;
+    try{
+        const request = await fetch(process.env.TS_API_URL + "/game.php");
+        const data = await request.json();
+
+        if(data.length == 0) return failedGame;
+        else return data[0] as Game;
+    }
+    catch(error){
+        return failedGame;
+    }
 }

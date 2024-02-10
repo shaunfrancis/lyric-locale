@@ -2,7 +2,6 @@ export const dynamic = "force-dynamic";
 
 import explicitText from '@/lib/explicitText';
 import Song from '@/types/Song';
-import { sql } from '@vercel/postgres';
 import { NextRequest } from 'next/server';
 const Levenshtein = require('fast-levenshtein');
 
@@ -26,7 +25,8 @@ export async function GET(request: NextRequest) : Promise<Response> {
     if(!query) return Response.json([]);
     query = query.replace(/ /g, '+');
 
-    let { rows : dbResults } = await sql`SELECT id, title, thumb, SIMILARITY(title, ${query}) as likeness FROM songs WHERE status IN (0,9) ORDER BY likeness DESC LIMIT 5`;
+    let dbResponse = await fetch(process.env.TS_API_URL + "/tracks.php?query=" + query);
+    let dbResults : any[] = await dbResponse.json();
     dbResults = dbResults.filter( result => result.likeness > 0.3 );
 
     let discogsResults : { results : Song[] }
