@@ -11,8 +11,10 @@ export async function POST(request: NextRequest) : Promise<Response> {
     }
 
     try{
-        await sql`INSERT INTO scores (game_id, score, elapsed) VALUES (${id}, ${score}, ${elapsed})`;
-        return Response.json( {}, {status: 200} );
+        let dbResponse = await fetch(process.env.TS_API_URL + `/scores.php?id=${id}&score=${score}&elapsed=${elapsed}`);
+        if(dbResponse.status == 200) return Response.json( {}, {status: 200} );
+        else return Response.json({error: dbResponse.status}, {status: dbResponse.status});
+
     }
     catch(error){
         return Response.json({error: error}, {status: 500});
