@@ -1,3 +1,4 @@
+import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
 /* Fail reason codes
@@ -7,6 +8,6 @@ import { NextResponse } from "next/server";
 */
 
 export default async function rejectSong( song : {id : number, title : string}, reason : number) : Promise<NextResponse> {
-    await fetch(process.env.TS_API_URL + `/make_game/reject.php?id=${song.id}&status=${reason}`);
+    await sql`UPDATE songs SET status = ${reason} WHERE id = ${song.id}`;
     return NextResponse.json( {title: song.title}, { status : 400} );
 };
